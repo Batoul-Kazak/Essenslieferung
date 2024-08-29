@@ -1,8 +1,10 @@
-export default function Header() {
+import { useState } from "react"
+
+export default function Header({ onSetOpenedSignUp }) {
     return (
         <header>
             <h1>Tomato</h1>
-            <ul className="pages flex-row gap">
+            <ul className="links">
                 <li>
                     <a href="">home</a>
                     <div className="line"></div>
@@ -20,13 +22,12 @@ export default function Header() {
                     <div className="line"></div>
                 </li>
             </ul>
-            <ul className="flex-row gap">
+            <ul className="icons">
                 <li>
-                    <div className="search-icon">search</div>
+                    <div className="search-icon"></div>
                 </li>
-                <li><a href="">Card-page</a>
-                </li>
-                <li><a href="">my account</a></li>
+                <li><div className="basket-icon"><a href=""></a></div></li>
+                <li><button onClick={() => onSetOpenedSignUp(true)}>Sign in</button></li>
             </ul>
         </header>
     )

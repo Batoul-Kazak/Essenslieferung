@@ -46,6 +46,39 @@ header {
     width: 80%;
 }
 
+header .icons {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 2.5rem;
+}
+
+header .search-icon,
+header .basket-icon {
+    background-image: url("./assets/search_icon.png");
+    background-position: center;
+    background-size: cover;
+    width: 2rem;
+    aspect-ratio: 1;
+}
+
+header .basket-icon {
+    background-image: url(./assets/basket_icon.png);
+}
+
+header .icons button {
+    border-radius: 2rem;
+    background-color: white;
+    padding: 1rem 1.5rem;
+}
+
+header .links {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 2rem;
+}
+
 header h1 {
     color: #ff2600;
     font-size: 2.6rem;
@@ -68,10 +101,15 @@ header li:hover .line {
 
 header a {
     text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .hero-section {
-    background-color: #ff7300;
+    background-image: url("./assets/header_img.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     width: 70%;
     padding: 4rem;
     border-radius: 1rem;
@@ -100,15 +138,33 @@ header a {
     flex-direction: column;
     place-content: center;
     place-items: center;
+    gap: 1rem;
+}
+
+.explore-menu p {
+    width: 60%;
+    place-self: start;
+    color: #555;
 }
 
 .explore-menu h2 {
     place-self: start;
     font-size: 2rem;
+    color: #333;
 }
 
 .explore-menu div {
     border-radius: 100%;
+}
+
+.explore-menu img {
+    border-radius: 100%;
+    transition: 50ms;
+    border: 0 solid #ff2600;
+}
+
+.explore-menu img:hover {
+    border: 3px solid #ff2600;
 }
 
 .explore-menu section {
@@ -122,7 +178,8 @@ header a {
     display: flex;
     place-content: center;
     place-items: center;
-    gap: 5rem;
+    gap: 2rem;
+    color: #555;
 }
 
 .main-menu {
@@ -132,7 +189,6 @@ header a {
 .main-menu main {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(1, 1fr);
     place-content: center;
     place-items: center;
     gap: 2rem;
@@ -144,26 +200,70 @@ header a {
     place-content: center;
     place-items: center;
     gap: 1rem;
+    box-shadow: 5px 5px 5px #AAA;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    transition: 500ms;
+}
+
+.dish:hover {
+    transform: scale(1.04);
 }
 
 .dish .img {
     position: relative;
 }
 
+.dish .img img {
+    width: 18rem;
+    height: 16rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
 .main-menu .dish .add {
     padding: 0.5rem;
     font-size: 0.8rem;
-    background-color: #EEE;
+    background-image: url("./assets/add_icon_white.png");
+    background-position: center;
+    background-size: cover;
+    width: 2rem;
+    aspect-ratio: 1;
     border-radius: 100%;
     position: absolute;
     bottom: 5%;
     right: 5%;
+    transition: 250ms;
+}
+
+.main-menu .dish .add:hover {
+    transform: scale(1.07);
+}
+
+.dish .price {
+    color: #ff2600;
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
 .dish main {
     display: flex;
     flex-direction: column;
     place-items: start;
+    gap: 1rem;
+    padding-bottom: 2rem;
+
+}
+
+.dish main p {
+    margin: 0;
+    padding: 0;
+}
+
+.dish .dish-info {
+    display: flex;
+    place-content: center;
+    place-items: center;
     gap: 1rem;
 }
 
@@ -172,7 +272,7 @@ header a {
     text-align: center;
 }
 
-.advertisement-section .icon-container {
+/* .advertisement-section .icon-container {
     display: flex;
     place-content: center;
     place-items: center;
@@ -181,13 +281,29 @@ header a {
     border-radius: 1rem;
     color: white;
     padding: 5px 1rem;
-}
+} */
 
 .advertisement-section section {
     display: flex;
     place-content: center;
     place-items: center;
     gap: 4rem;
+}
+
+.advertisement-section section div {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 15rem;
+    height: 5rem;
+}
+
+.advertisement-section section :first-child {
+    background-image: url(./assets/app_store.png);
+}
+
+.advertisement-section section :last-child {
+    background-image: url(./assets/play_store.png);
 }
 
 footer {
@@ -219,6 +335,19 @@ footer main .icons-container {
     display: flex;
     place-content: start;
     gap: 1rem;
+}
+
+footer main .icons-container .icon {
+    background-position: center;
+    background-size: cover;
+    width: 3rem;
+    aspect-ratio: 1;
+}
+
+footer main .icons-container img {
+    border-radius: 100%;
+    width: 3rem;
+    aspect-ratio: 1;
 }
 
 footer main>section:not(:first-child) {
@@ -276,4 +405,31 @@ footer>section {
     color: white;
     background-color: #ff7300;
     font-weight: bold;
+}
+
+form {
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 1rem;
+}
+
+form button {
+    background-color: inherit;
+    border: none;
+}
+
+form input {
+    border-radius: 5px;
+    padding: 10px;
+    width: 80%;
 }

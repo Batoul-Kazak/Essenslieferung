@@ -1,5 +1,15 @@
+// import facebook from "./../../assets"
+// import facebook from "./../../assets/facebook-icon.png"
+// import twitter from "./../../assets/twitter-icon.png"
+// import linkedin from "./../../assets/linkedin-icon.png"
+
 const icons = [
-    "./", "./", "./"
+    // facebook,
+    // twitter,
+    // linkedin,
+    "",
+    "",
+    "",
 ]
 
 export default function Footer() {
@@ -39,8 +49,9 @@ export default function Footer() {
     )
 }
 
-function Icon({ icon }) {
+function Icon({ img }) {
     return (
-        <div style={{ backgroundColor: "red", width: "2rem", height: "2rem", borderRadius: "100%" }}></div>
+        <div className="icon"></div>
+        // <img src={img} />
     )
 }

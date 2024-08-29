@@ -1,4 +1,10 @@
-export default function SignUp() {
+export default function SignUp({ onSetOpenedLogin, onSetOpenedSignUp }) {
+    function handleToggle() {
+        e.preventDefault();
+        onSetOpenedLogin(true);
+        onSetOpenedSignUp(false);
+    }
+
     return (
         <form action="" method="post">
             <header>
@@ -11,7 +17,7 @@ export default function SignUp() {
             <button className="register-btn">Create account</button>
             <input type="checkbox" id="check" />
             <label htmlFor="check">By continuing, I agree to the terms of use privacy policy</label>
-            <section>Already have an account? <button>Login here</button></section>
+            <section>Already have an account? <button onClick={handleToggle}>Login here</button></section>
         </form>
     )
 }
