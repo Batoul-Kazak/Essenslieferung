@@ -1,0 +1,279 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+.flex-row {
+    display: flex;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.center-items {
+    place-content: center;
+    place-items: center;
+}
+
+.gap {
+    gap: 1rem;
+}
+
+button {
+    cursor: pointer;
+    transition: 250ms;
+    font-weight: bold;
+}
+
+button:hover {
+    filter: brightness(150%);
+}
+
+header {
+    display: flex;
+    place-content: space-between;
+    place-items: center;
+    width: 80%;
+}
+
+header h1 {
+    color: #ff2600;
+    font-size: 2.6rem;
+}
+
+header li {
+    list-style-type: none;
+}
+
+header .line {
+    width: 0;
+    height: 3px;
+    background-color: red;
+    transition: 250ms;
+}
+
+header li:hover .line {
+    width: 100%;
+}
+
+header a {
+    text-decoration: none;
+}
+
+.hero-section {
+    background-color: #ff7300;
+    width: 70%;
+    padding: 4rem;
+    border-radius: 1rem;
+    color: white;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+}
+
+.hero-section .view-menu-btn {
+    background-color: #EEE;
+    color: #222;
+    border-radius: 2rem;
+    padding: 1rem 2rem;
+}
+
+.hero-section p {
+    width: 30rem;
+}
+
+.explore-menu {
+    width: 80%;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+.explore-menu h2 {
+    place-self: start;
+    font-size: 2rem;
+}
+
+.explore-menu div {
+    border-radius: 100%;
+}
+
+.explore-menu section {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+.explore-menu main {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 5rem;
+}
+
+.main-menu {
+    width: 80%;
+}
+
+.main-menu main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    place-content: center;
+    place-items: center;
+    gap: 2rem;
+}
+
+.dish {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 1rem;
+}
+
+.dish .img {
+    position: relative;
+}
+
+.main-menu .dish .add {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    background-color: #EEE;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
+
+.dish main {
+    display: flex;
+    flex-direction: column;
+    place-items: start;
+    gap: 1rem;
+}
+
+.advertisement-section h2 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.advertisement-section .icon-container {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 1rem;
+    background-color: black;
+    border-radius: 1rem;
+    color: white;
+    padding: 5px 1rem;
+}
+
+.advertisement-section section {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 4rem;
+}
+
+footer {
+    background-color: #222;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 5rem;
+    margin-top: 5rem;
+}
+
+footer h2 {
+    color: orangered;
+    font-size: 2.8rem;
+}
+
+footer main {
+    display: flex;
+    place-content: center;
+    place-items: start;
+    gap: 2rem;
+    padding: 4rem 0 0 0;
+}
+
+footer main .icons-container {
+    display: flex;
+    place-content: start;
+    gap: 1rem;
+}
+
+footer main>section:not(:first-child) {
+    width: 20%;
+}
+
+footer ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+footer main section:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+footer main>section:first-child {
+    width: 35%;
+}
+
+footer section li {
+    list-style-type: none;
+}
+
+footer section a {
+    text-decoration: none;
+    color: white;
+}
+
+footer h3 {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+footer .line {
+    width: 100%;
+    background-color: white;
+    height: 1px;
+}
+
+footer>section {
+    width: 80%;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+.register-btn {
+    width: 80%;
+    padding: 2rem;
+    color: white;
+    background-color: #ff7300;
+    font-weight: bold;
+}
