@@ -20,7 +20,6 @@ const meals = [
     { meal: "Noodles", img: menu_8 },
 ];
 
-
 export default function ExploreMenu() {
     return (
         <section className="explore-menu">

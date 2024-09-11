@@ -16,8 +16,12 @@ export default function App() {
     return (
         <div className="app">
             <Header onSetOpenedSignUp={setOpenedSignUp} />
-            {openedSignUp && <SignUp onSetOpenedLogin={setOpenedLogin} />}
-            {openedLogin && <Login onSetOpenedSignUp={setOpenedSignUp} />}
+            {openedLogin && <SignUp onSetOpenedLogin={setOpenedLogin}
+                onSetOpenedSignUp={setOpenedSignUp}
+            />}
+            {openedSignUp && <Login onSetOpenedSignUp={setOpenedSignUp}
+                onSetOpenedLogin={setOpenedLogin}
+            />}
             <HeroSection />
             <ExploreMenu />
             <MainMenu />

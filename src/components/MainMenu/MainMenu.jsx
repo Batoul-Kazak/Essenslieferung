@@ -11,6 +11,9 @@ import food_10 from "./../../assets/food_10.png"
 import food_11 from "./../../assets/food_11.png"
 import food_12 from "./../../assets/food_12.png"
 
+import StarRating from "./StarRating"
+import { useState } from "react"
+
 const dishes = [
     { image: food_1, name: "Greek Salad", rating: 4, description: "the best one", price: 23 },
     { image: food_2, name: "Veg Salad", rating: 5, description: "the best one", price: 24 },
@@ -39,13 +42,6 @@ export default function MainMenu() {
 }
 
 function Dish({ dish }) {
-    const rating = [
-        "⭐",
-        "⭐⭐",
-        "⭐⭐⭐",
-        "⭐⭐⭐⭐",
-        "⭐⭐⭐⭐⭐",
-    ]
     return (
         <section className="dish">
             <div className="img">
@@ -55,7 +51,8 @@ function Dish({ dish }) {
             <main>
                 <div className="dish-info">
                     <h3>{dish.name}</h3>
-                    {rating[dish.rating - 1]}
+                    {/* {rating[dish.rating - 1]} */}
+                    <StarRating rating={dish.rating} />
                 </div>
                 <p>{dish.description}</p>
                 <p className="price">{dish.price}$</p>

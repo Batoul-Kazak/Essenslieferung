@@ -399,14 +399,6 @@ footer>section {
     place-items: center;
 }
 
-.register-btn {
-    width: 80%;
-    padding: 2rem;
-    color: white;
-    background-color: #ff7300;
-    font-weight: bold;
-}
-
 form {
     background-color: white;
     position: absolute;
@@ -421,6 +413,8 @@ form {
     place-content: center;
     place-items: center;
     gap: 1rem;
+
+    box-shadow: 5px 5px 5px #333;
 }
 
 form button {
@@ -432,4 +426,33 @@ form input {
     border-radius: 5px;
     padding: 10px;
     width: 80%;
+}
+
+.submit-button {
+    border-radius: 1rem;
+
+    width: 90%;
+    padding: 1rem;
+    color: white;
+    background-color: #ff7300;
+    font-weight: bold;
+}
+
+form div {
+    display: flex;
+    place-content: start;
+    place-items: start;
+    gap: 1rem;
+    width: 90%;
+}
+
+form input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+}
+
+form section button {
+    color: #ff2600;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
