@@ -9,7 +9,7 @@ import menu_6 from "./../../assets/menu_6.png"
 import menu_7 from "./../../assets/menu_7.png"
 import menu_8 from "./../../assets/menu_8.png"
 
-const meals = [
+const dishesTypesArr = [
     { meal: "Salad", img: menu_1 },
     { meal: "Rolls", img: menu_2 },
     { meal: "Deserts", img: menu_3 },
@@ -20,7 +20,7 @@ const meals = [
     { meal: "Noodles", img: menu_8 },
 ];
 
-export default function ExploreMenu() {
+export default function ExploreMenu({ onDisplayFoods }) {
     return (
         <section className="explore-menu">
             <h2>Explore our menu</h2>
@@ -28,17 +28,17 @@ export default function ExploreMenu() {
                 est, illum soluta dolor optio eius necessitatibus veniam quasi dolorem,
                 deleniti officiis consequuntur doloremque culpa sunt ipsum distinctio a!</p>
             <main>
-                {meals.map((el, i) =>
-                    <FoodType key={i} meal={el} />
+                {dishesTypesArr.map((el, i) =>
+                    <FoodType key={i} meal={el} onDisplayFoods={() => onDisplayFoods(el.meal)} />
                 )}
             </main>
         </section>
     );
 }
 
-function FoodType({ meal }) {
+function FoodType({ meal, onDisplayFoods }) {
     return (
-        <section className="meal">
+        <section className="meal" role="button" onClick={onDisplayFoods}>
             <img src={meal.img} alt={meal.meal} />
             <h3>{meal.meal}</h3>
         </section>
