@@ -1,20 +1,16 @@
 
-export default function Login({ onSetOpenedSignUp, onSetOpenedLogin }) {
+export default function Login({ onSetOpenedSignUp, onSetOpenedLogin, openLogin }) {
     function openSignUpForm(e) {
         e.preventDefault();
         onSetOpenedSignUp(true);
         onSetOpenedLogin(false);
     }
 
-    function closeLogin() {
-        onSetOpenedLogin(false);
-    }
-
     return (
-        <form action="" method="post" >
-            {/* <header>
+        <form action="" method="post" className="register-info" >
+            <header>
                 <h2>Login</h2>
-                <button onClick={() => closeLogin()}>✖</button>
+                <button onClick={() => onSetOpenedLogin(false)}>✖</button>
             </header>
             <input type="email" placeholder="Your email" />
             <input type="password" placeholder="Password" />
@@ -23,7 +19,7 @@ export default function Login({ onSetOpenedSignUp, onSetOpenedLogin }) {
                 <input type="checkbox" id="check" />
                 <label htmlFor="check">By continuing, I agree to the terms of use privacy policy</label>
             </div>
-            <section>Create a new account? <button onClick={(e) => openSignUpForm(e)}>Click here</button></section> */}
+            <section>Create a new account? <button onClick={(e) => openSignUpForm(e)}>Click here</button></section>
         </form>
     );
 }

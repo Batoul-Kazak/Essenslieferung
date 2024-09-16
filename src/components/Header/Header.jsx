@@ -1,9 +1,9 @@
 import { useState } from "react"
 
-export default function Header({ onSetOpenedSignUp }) {
+export default function Header({ onSetOpenedSignUp, onSetOpenedCardPage }) {
     return (
         <header>
-            <h1>Tomato</h1>
+            <h1>Tomato 🍅</h1>
             <ul className="links">
                 <li>
                     <a href="">home</a>
@@ -26,7 +26,7 @@ export default function Header({ onSetOpenedSignUp }) {
                 <li>
                     <div className="search-icon"></div>
                 </li>
-                <li><div className="basket-icon"><a href=""></a></div></li>
+                <li><div className="basket-icon" role="button" onClick={() => onSetOpenedCardPage((showCardPage) => !showCardPage)}></div></li>
                 <li><button onClick={() => onSetOpenedSignUp(true)}>Sign in</button></li>
             </ul>
         </header>

@@ -8,23 +8,48 @@ import SignUp from "./components/Header/components/SignUp"
 import Login from "./components/Header/components/Login"
 
 import { useState } from "react"
+import Warning from "./components/Header/components/Warning"
+import Curtain from "./Curtain"
+import CardPage from "./components/CardPage.jsx/CardPage"
+
+import { DISHES } from "./constants"
 
 export default function App() {
     const [openedSignUp, setOpenedSignUp] = useState(false);
     const [openedLogin, setOpenedLogin] = useState(false);
+    let showWarning = false;
+    const showCurtain = (openedLogin || openedSignUp);
+    const [password, setPassword] = useState("");
+    const [meals, setMeals] = useState(DISHES);
+    const [openedCardPage, setOpenedCardPage] = useState(false);
+    const [registeredMeals, setRegisteredMeals] = useState([]);
+
+    function handleDisplayFoods(meal) {
+        setMeals((meals) => DISHES.filter((dish) => dish.type === meal.toLowerCase()))
+    }
 
     return (
         <div className="app">
-            <Header onSetOpenedSignUp={setOpenedSignUp} />
-            {openedLogin && <SignUp onSetOpenedLogin={setOpenedLogin}
-                onSetOpenedSignUp={setOpenedSignUp}
+            {openedCardPage && < CardPage registeredMeals={registeredMeals}
+                onSetRegisteredMeals={setRegisteredMeals}
+                onSetOpenedSignUp={setOpenedSignUp} onSetOpenedCardPage={setOpenedCardPage}
             />}
-            {openedSignUp && <Login onSetOpenedSignUp={setOpenedSignUp}
+            <Header onSetOpenedSignUp={setOpenedSignUp} onSetOpenedCardPage={setOpenedCardPage} />
+            {openedSignUp && <SignUp onSetOpenedLogin={setOpenedLogin}
+                onSetOpenedSignUp={setOpenedSignUp}
+                showWarning={showWarning}
+                password={password} onSetPassword={setPassword}
+            />}
+            {openedLogin && <Login onSetOpenedSignUp={setOpenedSignUp}
                 onSetOpenedLogin={setOpenedLogin}
             />}
+            {showCurtain && <Curtain />}
+            {showWarning && <Warning />}
             <HeroSection />
-            <ExploreMenu />
-            <MainMenu />
+            <ExploreMenu onDisplayFoods={handleDisplayFoods} />
+            <MainMenu meals={meals} onSetRegisteredMeals={setRegisteredMeals}
+                registeredMeals={registeredMeals}
+            />
             <AdvertisementSection />
             <Footer />
         </div>
