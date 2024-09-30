@@ -4,17 +4,19 @@ import { AddingControl } from "./components/AddingControl";
 import { useState } from "react"
 
 export default function MainMenu({ meals, onSetRegisteredMeals, registeredMeals }) {
-
     return (
         <section className="main-menu">
             <h2>Top dishes near you</h2>
             <main>
-                {meals.map((el, i) => <Dish key={i} dish={el}
-                    onSetRegisteredMeals={onSetRegisteredMeals}
-                    registeredMeals={registeredMeals}
-                />)}
-            </main>
-        </section>
+                {
+                    meals.map((el, i) => <Dish key={i} dish={el}
+                        onSetRegisteredMeals={onSetRegisteredMeals}
+                        registeredMeals={registeredMeals}
+                    />)
+                }
+                {meals.map((el, i) => <Dish key={i} dish={el} />)}
+            </main >
+        </section >
     )
 }
 
@@ -23,8 +25,9 @@ function Dish({ dish, onSetRegisteredMeals, registeredMeals }) {
 
     function handleAddMeal() {
         setQuantity((quantity) => quantity + 1);
-        console.log(quantity)
-        let dishInfo = { image: dish.image, name: dish.name, price: dish.price, totalQuantity: quantity };
+        let try_ = (Math.floor(Math.random() * 5)) + 1;
+        // console.log(quantity)
+        let dishInfo = { image: dish.image, name: dish.name, price: dish.price, totalQuantity: try_ };
 
         if (registeredMeals.find(meal => dish.name == meal.name)) {
             onSetRegisteredMeals(

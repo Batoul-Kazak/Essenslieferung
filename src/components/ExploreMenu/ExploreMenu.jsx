@@ -1,5 +1,3 @@
-
-
 import menu_1 from "./../../assets/menu_1.png"
 import menu_2 from "./../../assets/menu_2.png"
 import menu_3 from "./../../assets/menu_3.png"
@@ -9,10 +7,10 @@ import menu_6 from "./../../assets/menu_6.png"
 import menu_7 from "./../../assets/menu_7.png"
 import menu_8 from "./../../assets/menu_8.png"
 
-const meals = [
+const dishesTypesArr = [
     { meal: "Salad", img: menu_1 },
     { meal: "Rolls", img: menu_2 },
-    { meal: "Deserts", img: menu_3 },
+    { meal: "dessert", img: menu_3 },
     { meal: "Sandwich", img: menu_4 },
     { meal: "Cake", img: menu_5 },
     { meal: "Pure Veg", img: menu_6 },
@@ -28,9 +26,9 @@ export default function ExploreMenu({ onDisplayFoods }) {
                 est, illum soluta dolor optio eius necessitatibus veniam quasi dolorem,
                 deleniti officiis consequuntur doloremque culpa sunt ipsum distinctio a!</p>
             <main>
-                {meals.map((el, i) =>
-                    <FoodType key={i} meal={el} onDisplayFoods={() => onDisplayFoods(el.meal)} />
-                )}
+                {dishesTypesArr.map((el, i) =>
+                    <FoodType key={i} meal={el} onDisplayFoods={() => onDisplayFoods(el.meal)} />)
+                }
             </main>
         </section>
     );
