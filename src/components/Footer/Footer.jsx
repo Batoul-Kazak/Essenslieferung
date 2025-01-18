@@ -17,13 +17,13 @@ export default function Footer() {
         <footer>
             <main>
                 <section>
-                    <h2>Tomato</h2>
+                    <h2>Tomato 🍅</h2>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                         Ipsam dolorem molestias perspiciatis fugiat blanditiis in ratione,
                         quos quidem autem labore recusandae reiciendis eligendi repellat impedit!
                         Voluptatum similique ratione facere explicabo?</p>
                     <div className="icons-container">
-                        {icons.map((icon, i) => <Icon key={i} img={icon} />)}
+                        {/* {icons.map((icon, i) => <Icon key={i} img={icon} />)} */}
                     </div>
                 </section>
                 <section>

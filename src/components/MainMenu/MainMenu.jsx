@@ -1,71 +1,204 @@
 
-import StarRating from "./components/StarRating"
+import ControlledStarRating from "./components/ControlledStarRating"
+import UncontrolledStarRating from "./components/UncontrolledStarRating"
 import { AddingControl } from "./components/AddingControl";
-import { useState } from "react"
+import TextExpander from "./components/TextExpander";
+import { useEffect, useState } from "react"
 
-export default function MainMenu({ meals, onSetRegisteredMeals, registeredMeals }) {
+export default function MainMenu({ recipe,
+    setQuery,
+    setOpenCardPage,
+    recipesOrder,
+    setRecipesOrder,
+    showMenu
+}) {
+    const [canOrder, setCanOrder] = useState(false);
+    const localStorageData = []; // Array to store key-value pairs
+
     return (
         <section className="main-menu">
-            <h2>Top dishes near you</h2>
-            <main>
-                {
-                    meals.map((el, i) => <Dish key={i} dish={el}
-                        onSetRegisteredMeals={onSetRegisteredMeals}
-                        registeredMeals={registeredMeals}
-                    />)
-                }
-                {meals.map((el, i) => <Dish key={i} dish={el} />)}
-            </main >
+            {!recipe.length ? <h2>Search and find your recipes</h2>
+                : <>
+                    <h2>Choose and enjoy your meal</h2>
+                    <main>
+                        {
+                            recipe.map(dish => <Dish key={dish.id}
+                                recipe={dish} setCanOrder={setCanOrder}
+                                recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
+                            />)
+                        }
+                    </main >
+                    {/* {
+                copy from text in this project folder
+              } */}
+                </>}
         </section >
-    )
+    );
 }
 
-function Dish({ dish, onSetRegisteredMeals, registeredMeals }) {
-    const [quantity, setQuantity] = useState(0);
+function Dish({ recipe, setCanOrder, recipesOrder, setRecipesOrder }) {
+    const [isClicked, setIsClicked] = useState(false);
+    const [showDetails, setShowDetails] = useState(true);
+    const [dishAmount, setDishAmount] = useState(1);
+    const [canControlRating, setCanControlRating] = useState(false);
+    const [userRating, setUserRating] = useState(0);
+    const [isShowText, setIsShowText] = useState(false);
 
-    function handleAddMeal() {
-        setQuantity((quantity) => quantity + 1);
-        let try_ = (Math.floor(Math.random() * 5)) + 1;
-        // console.log(quantity)
-        let dishInfo = { image: dish.image, name: dish.name, price: dish.price, totalQuantity: try_ };
+    const ratingMessages = [
+        { msg: "Terrible", color: "red" },
+        { msg: "Bad", color: "orangered" },
+        { msg: "Okay", color: "#b8b800" },
+        { msg: "Good", color: "green" },
+        { msg: "Amazing", color: "blue" }
+    ];
 
-        if (registeredMeals.find(meal => dish.name == meal.name)) {
-            onSetRegisteredMeals(
-                registeredMeals =>
-                    registeredMeals.map(el =>
-                        el.name != element.name ?
-                            el :
-                            dishInfo
-                    ));
-        } else {
-            onSetRegisteredMeals(
-                registeredMeals =>
-                    [...registeredMeals, dishInfo]);
+    function handleShowDetails() {
+        setShowDetails(!showDetails);
+    }
+
+    function handleCloseDishDetails(e) {
+        if (e.code === "Escape") {
+            setShowDetails(true);
         }
-        console.log(dish)
-        console.log(registeredMeals);
+    }
+
+    document.addEventListener("keydown", handleCloseDishDetails);
+
+
+    const {
+        cookTimeMinutes,
+        cuisine,
+        difficulty,
+        image,
+        ingredients,
+        mealType,
+        name,
+        id,
+        prepTimeMinutes,
+        rating,
+        reviewCount,
+    } = recipe;
+
+    const ingredientsPart1 = ingredients.toString().slice(0, 25);
+    const ingredientsPart2 = ingredients.toString().slice(25);
+
+    const price = 2 * rating;
+
+    const roundedRating = Math.round(Number(rating));
+
+    // useEffect(function () {
+    //     localStorage.setItem(`dish${id}`, { name: name, price: price });
+    // }, [price]);
+
+    let totalPrice = (dishAmount * price).toFixed(1);
+
+    let totalTimeNeeded = prepTimeMinutes + cookTimeMinutes;
+
+    function handleAddRecipe() {
+
+        const newRecipe = {
+            id: id,
+            name,
+            image,
+            price: price,
+            totalTime: totalTimeNeeded,
+            quantity: dishAmount,
+            totalPrice: totalPrice,
+        };
+
+        console.log(newRecipe);
+
+        const isExistInRecipesOrder = recipesOrder.map(item => item.id).includes(id);
+
+        //adding recipe only if it doesn't exists
+        if (!isExistInRecipesOrder) {
+            setRecipesOrder(recipesOrder => [...recipesOrder, newRecipe]);
+        }
+        else
+            //update existing recipe totalPrice + amount
+            setRecipesOrder(recipesOrder => recipesOrder.map(item => item.id === id ?
+                { ...item, quantity: dishAmount, totalPrice: totalPrice } : item
+            ));
+
+        console.log(recipesOrder);
+    }
+
+    function handleAddInFirstTime() {
+        setIsClicked(true);
+        handleAddRecipe();
     }
 
     return (
         <section className="dish">
             <div className="img">
-                <img src={dish.image} alt={dish.name} />
-                {quantity > 0 ? <AddingControl onSetQuantity={setQuantity} quantity={quantity}
-                    onSetRegisteredMeals={onSetRegisteredMeals}
-                /> :
-                    <button className="add" onClick={() => handleAddMeal()}
+                <img src={image} alt={name} />
+                {isClicked ? <AddingControl setDishAmount={setDishAmount}
+                    dishAmount={dishAmount} handleAddRecipe={handleAddRecipe}
+                    setIsClicked={setIsClicked} setCanOrder={setCanOrder} /> :
+                    <button className="add" onClick={handleAddInFirstTime}
                     ></button>
                 }
             </div>
-            <main>
-                <div className="dish-info">
-                    <h3>{dish.name}</h3>
-                    {/* {rating[dish.rating - 1]} */}
-                    <StarRating rating={dish.rating} />
-                </div>
-                <p>{dish.description}</p>
-                <p className="price">{dish.price}$</p>
-            </main>
+            {showDetails ?
+                <main>
+                    <div className="dish-info">
+                        <p>{cuisine}</p>
+                        <div>
+                            {!canControlRating ? <UncontrolledStarRating rating={roundedRating} /> :
+                                <ControlledStarRating defaultRating={2} onSetRating={setUserRating} messages={ratingMessages} />}
+                            <p className="add-rating-text" role="button"
+                                style={{ color: canControlRating ? "goldenrod" : "navy" }}
+                                onClick={() => setCanControlRating(canControlRating => !canControlRating)}>
+                                {canControlRating ? "see people's rating" : "add your rating"}
+                            </p>
+                        </div>
+                        <p className="review-count">{reviewCount} people reviews</p>
+                    </div>
+                    <h3 className="name">{name}</h3>
+                    <div className="detailed-info">
+                        <p className="price">{price}$</p>
+                        <p>Duration: {cookTimeMinutes + prepTimeMinutes}min</p>
+                        <button className="details" onClick={handleShowDetails}>show</button>
+                    </div>
+                </main> : <div className="more-details">
+                    <h3 className="name">{name}</h3>
+                    <table>
+                        <tr>
+                            <td>cuisine </td>
+                            <td>{cuisine}</td>
+                        </tr>
+                        <tr>
+                            <td>Meal Type: </td>
+                            <td>{mealType}</td>
+                        </tr>
+                        <tr>
+                            <td>Ingredients: </td>
+                            <td>
+                                <TextExpander text1={ingredientsPart1} textClassName="lighter"
+                                    showText_={isShowText} onSetShowText={setIsShowText}>
+                                    {ingredientsPart2}
+                                </TextExpander>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Avg Rating: </td>
+                            <td>{rating}/5 with {reviewCount} people reviews</td>
+                        </tr>
+                        <tr>
+                            <td>cook time: </td>
+                            <td>{cookTimeMinutes}min</td>
+                        </tr>
+                        <tr>
+                            <td>Prep time: </td>
+                            <td>{prepTimeMinutes}min</td>
+                        </tr>
+                        <tr>
+                            <td>Difficulty: </td>
+                            <td>{difficulty}</td>
+                        </tr>
+                    </table>
+                    <button className="details" onClick={handleShowDetails}>hide</button>
+                </div>}
         </section>
     );
 }

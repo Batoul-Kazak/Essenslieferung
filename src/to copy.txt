@@ -1,0 +1,5 @@
+  {canOrder && <>
+                    {localStorageData.map(item => <p>recipe: {item.key} value: {item.value}</p>)}
+                    {/* <p>You added {dishAmount} of {name} and the total price is {totalPrice}$ </p> */}
+                    <button className="buy" onClick={() => setOpenCardPage(true)}>Check your Recipes 🍟</button>
+                </>}

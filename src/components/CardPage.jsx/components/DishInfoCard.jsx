@@ -1,49 +1,100 @@
-import image1 from "./../../../assets/menu_7.png"
+import { useEffect, useState } from "react"
 
-export default function DishInfoCard({ registeredMeals, onSetRegisteredMeals }) {
+export default function DishInfoCard({ recipesOrder, setRecipesOrder }) {
+    const totalPrice_forRecipe = recipesOrder.map(recipe => Number(recipe.totalPrice));
+    const checkAmount = totalPrice_forRecipe.reduce((acc, recipeTotalPrice) => acc + recipeTotalPrice, 0);
 
-    const show = registeredMeals.length ? true : false;
+    const totalTimeNeeded = recipesOrder.map(recipe => Number(recipe.totalTime))
+        .reduce((acc, totalTime) => acc + totalTime, 0);
+
     return (
         <section className="dish-info-card">
-            {show &&
-                <div className="dish-info-card-show">
-                    <div>
-                        <p className="image">Items</p>
-                        <p>Title</p>
-                        <p>Price</p>
-                        <p>Quantity</p>
-                        <p>Total</p>
-                        <p>Remove</p>
-                    </div>
-                    {registeredMeals.map((_dish) => <DishInfo key={_dish.name} _dish={_dish}
-                        onSetRegisteredMeals={onSetRegisteredMeals} registeredMeals={registeredMeals} />)}
-                </div>
+            {!recipesOrder.length ? <p>No Selected Meals!</p> :
+                <table className="dish-info-card-show">
+                    <tr>
+                        <td>image</td>
+                        <td>Title</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                        <td>Total</td>
+                        <td>Remove</td>
+                    </tr>
+                    {recipesOrder.map((recipe) => <DishInfo key={recipe.id}
+                        recipe={recipe} setRecipesOrder={setRecipesOrder}
+                    />)}
+                </table>
             }
-
-            {!show && <p>No Meals Selected!</p>}
+            <div className="dish-info-card-side-section">
+                <CartTotal checkAmount={checkAmount} totalTimeNeeded={totalTimeNeeded} />
+                <PromoCode />
+            </div>
         </section>
     )
 }
 
-function DishInfo({ _dish, onSetRegisteredMeals, registeredMeals }) {
-    const totalPrice = _dish.totalQuantity * _dish.price;
+function DishInfo({
+    recipe,
+    setRecipesOrder
+}) {
 
-    function handleRemoveMeal() {
-        onSetRegisteredMeals((meals) => meals.filter(meal => _dish.name !== meal.name));
-        console.log(registeredMeals);
-
+    function handleRemoveRecipe_FromRecipesOrder() {
+        setRecipesOrder(recipesOrder => recipesOrder.filter(item => item.id !== recipe.id));
     }
 
     return (
-        <div className="dish-info">
-            <div className="image">
-                <img src={image1} alt="image" />
-            </div>
-            <p>{_dish.name}</p>
-            <p>{_dish.price}$</p>
-            <p>{_dish.totalQuantity}</p>
-            <p>{totalPrice}$</p>
-            <button onClick={() => handleRemoveMeal()}>✖</button>
-        </div>
+        <tr className="dish-info">
+            <td className="image">
+                <img src={recipe.image} alt="image" />
+            </td>
+            <td>{recipe.name}</td>
+            <td>{recipe.price}$</td>
+            <td>{recipe.quantity}</td>
+            <td>{recipe.totalPrice}$</td>
+            <td>
+                <button onClick={handleRemoveRecipe_FromRecipesOrder}>✖</button>
+            </td>
+        </tr>
     );
+}
+
+function CartTotal({ checkAmount, totalTimeNeeded }) {
+
+    function handleProceedToCheckout() {
+        const hours = (totalTimeNeeded / 60).toFixed(0);
+        const minutes = totalTimeNeeded % 60;
+        alert(`we are working on your recipes, please wait ${hours > 1 ? hours + " hours" : (hours == 1) ? " one hour " : ""} ${minutes > 0 ? `and ${minutes} min` : ""} until we deliver it to your home`);
+    }
+
+    return (
+        <section className="cart-total">
+            <h2>Cart Total</h2>
+            <div>
+                <div>
+                    <p>Subtotal</p>
+                    <p>{checkAmount.toFixed(1)}$</p>
+                </div>
+                <div>
+                    <p>Delivery Fee</p>
+                    <p>5$</p>
+                </div>
+                <div>
+                    <p>Total</p>
+                    <p>{checkAmount ? (checkAmount + 5).toFixed(1) : 0}$</p>
+                </div>
+            </div>
+            <button onClick={handleProceedToCheckout} disabled={!checkAmount}>PROCEED TO CHECKOUT</button>
+        </section>
+    )
+}
+
+function PromoCode() {
+    return (
+        <section className="promo-code">
+            <p>If you have a promo code enter it here</p>
+            <form>
+                <input type="text" placeholder="promo code" />
+                <button>Submit</button>
+            </form>
+        </section>
+    )
 }

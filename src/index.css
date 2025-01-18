@@ -50,6 +50,7 @@ header .basket-icon {
     background-image: url("./assets/search_icon.png");
     background-position: center;
     background-size: cover;
+    background-position: no-repeat;
     width: 2rem;
     aspect-ratio: 1;
     cursor: pointer;
@@ -118,6 +119,13 @@ header a {
     font-size: 3.5rem;
 }
 
+.hero-section p {
+    font-weight: bold;
+    /* color: #222; */
+    text-align: justify;
+    text-shadow: 2px 2px 2px #000;
+}
+
 .hero-section .view-menu-btn {
     background-color: #EEE;
     color: #222;
@@ -134,6 +142,13 @@ header a {
 
     display: flex;
     flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 1rem;
+}
+
+.explore-menu main {
+    display: flex;
     place-content: center;
     place-items: center;
     gap: 1rem;
@@ -182,6 +197,32 @@ header a {
 
 .main-menu {
     width: 80%;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 3rem;
+}
+
+.main-menu .buy {
+    padding: 1rem 3rem;
+    width: 60%;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    border: 5px groove #c24010;
+    background-image: linear-gradient(35deg, rgb(255, 68, 0), #ff511d);
+    transition: 250ms;
+}
+
+.main-menu .buy:hover {
+    filter: brightness(170%);
+    box-shadow: 8px 8px 8px #555;
+}
+
+.main-menu .buy:active {
+    scale: 0.95;
+    box-shadow: none;
 }
 
 .main-menu main {
@@ -202,10 +243,15 @@ header a {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     transition: 500ms;
+    font-weight: bold;
 }
 
+/* .show-details {
+    background-color: #CCC;
+} */
+
 .dish:hover {
-    transform: scale(1.04);
+    transform: scale(1.02);
 }
 
 .dish .img {
@@ -236,6 +282,13 @@ header a {
     display: flex;
     place-content: space-between;
     place-items: center;
+}
+
+.adding-control input {
+    padding: 1rem 0;
+    border: none;
+    outline: none;
+    text-align: center;
 }
 
 .main-menu .dish .add,
@@ -272,15 +325,19 @@ header a {
 }
 
 .dish .price {
-    color: #ff2600;
-    font-size: 1.6rem;
+    color: white;
+    background-color: rgb(0, 90, 0);
+    padding: 0.8rem;
+    font-size: 1.3rem;
     font-weight: bold;
+
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 }
 
 .dish main {
     display: flex;
     flex-direction: column;
-    place-items: start;
     gap: 1rem;
     padding-bottom: 2rem;
 
@@ -289,13 +346,6 @@ header a {
 .dish main p {
     margin: 0;
     padding: 0;
-}
-
-.dish .dish-info {
-    display: flex;
-    place-content: center;
-    place-items: center;
-    gap: 1rem;
 }
 
 .advertisement-section h2 {
@@ -430,10 +480,10 @@ footer>section {
     place-items: center;
 }
 
-form {
+form.register-info {
     background-color: white;
-    position: absolute;
-    top: 10%;
+    position: fixed;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 2rem;
@@ -446,30 +496,31 @@ form {
     gap: 1rem;
 
     box-shadow: 5px 5px 5px #333;
+    z-index: 11;
 }
 
-form button {
-    background-color: inherit;
-    border: none;
+form.register-info button {
+    /* background-color: inherit; */
+    /* border: none; */
 }
 
-form input {
+form.register-info input {
     border-radius: 5px;
     padding: 10px;
-    width: 80%;
+    width: 20rem;
 }
 
 .submit-button {
     border-radius: 1rem;
 
-    width: 90%;
+    width: 20rem;
     padding: 1rem;
     color: white;
     background-color: #ff7300;
     font-weight: bold;
 }
 
-form div {
+form.register-info div {
     display: flex;
     place-content: start;
     place-items: start;
@@ -477,29 +528,33 @@ form div {
     width: 90%;
 }
 
-form input[type="checkbox"] {
+form.register-info input[type="checkbox"] {
     width: 1rem;
     height: 1rem;
 }
 
-form section button {
+form.register-info section button {
     color: #ff2600;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     font-weight: bold;
+    border: none;
+    background-color: inherit;
+}
+
+form.register-info section button:hover {
+    filter: brightness(100%);
+    color: #333;
+    transform: scale(1);
 }
 
 .curtain {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #222222ad;
+    background-color: #22222294;
     width: 100%;
     height: 100%;
-    z-index: 1;
-}
-
-.register-info {
-    z-index: 2;
+    z-index: 10;
 }
 
 .warning {
@@ -547,14 +602,23 @@ form section button {
     background-color: orangered;
 }
 
-.card-page {
+.card-page,
+.user-account-info-page,
+.add-meal-page {
     position: absolute;
-    inset: 0;
+    inset: 0 0 auto 0;
     width: 100%;
     height: 100%;
     background-color: white;
 
+    /* box-shadow: 5px 5px 5px 5px #0000007c; */
+
     z-index: 10;
+}
+
+.user-account-info-page header,
+.add-meal-page header {
+    place-self: center;
 }
 
 .card-page>div {
@@ -568,8 +632,14 @@ form section button {
 }
 
 .card-page header {
-    background-color: white;
-    width: 100%;
+    /* width: 80%; */
+    place-self: center;
+    position: relative;
+}
+
+.card-page header .basket-icon {
+    width: 2rem;
+    height: 2rem;
 }
 
 .card-page .dish-info-card {
@@ -577,30 +647,39 @@ form section button {
     flex-direction: column;
     place-content: center;
     place-items: center;
+    gap: 3rem;
 
     width: 100%;
 }
 
-.card-page .dish-info-card div p,
-.card-page .dish-info-card .dish-info p,
-.card-page .dish-info-card .dish-info button,
-.card-page .dish-info-card .dish-info .image {
-    color: #777;
-    width: 12rem;
-    display: flex;
-    place-content: start;
-    place-items: start;
-    margin: 0;
+.dish img {
+    object-fit: cover;
 }
 
-.card-page .dish-info-card .dish-info-card-show>div,
-.card-page .dish-info-card .dish-info {
-    display: flex;
-    place-content: center;
-    place-items: center;
-    gap: 5px;
+.card-page .dish-info-card .dish-info-card-show {
+    padding: 1rem;
+    width: 80%;
+}
+
+table tr:first-child td {
+    font-weight: bold;
+}
+
+table td {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #999;
+}
+
+.card-page .dish-info-card .dish-info-card-show>div {
     padding: 1rem 0;
     border-bottom: 1px solid #DDD;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-page .dish-info-card .dish-info-card-show {
+    padding: 1rem 0;
 }
 
 .card-page .dish-info-card div>p {
@@ -620,4 +699,358 @@ form section button {
 
 .card-page .dish-info-card .image {
     width: 6rem !important;
+}
+
+.dish-info-card-side-section {
+    display: flex;
+    place-content: space-between;
+    place-items: center;
+    width: 80%;
+}
+
+.cart-total {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 2rem;
+}
+
+.cart-total>div>div {
+    display: flex;
+    place-content: space-between;
+    place-items: center;
+    gap: 1rem;
+}
+
+.cart-total button {
+    background-color: orangered !important;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    place-self: center;
+}
+
+.promo-code {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 2rem;
+}
+
+.promo-code input {
+    width: 25rem;
+    padding: 0.7rem;
+    font-size: 1.2rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    background-color: #EEE;
+}
+
+.promo-code p {
+    font-size: 1.2rem;
+    width: 20rem !important;
+    place-self: start;
+    font-weight: bold;
+}
+
+.promo-code button {
+    background-color: #222 !important;
+    padding: 1rem;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    color: white;
+    margin-left: -1rem;
+}
+
+.promo-code form {
+    display: flex;
+    place-content: center;
+    place-items: center;
+}
+
+.loader {
+    color: #333;
+    font-size: 2rem;
+    padding: 2rem;
+}
+
+.error {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    padding: 2rem;
+
+    font-size: 2rem;
+}
+
+.error p {
+    margin-left: 10px;
+    font-weight: bold;
+    color: red;
+    font-size: 1.5rem;
+}
+
+
+.search {
+    height: 3rem;
+    width: 30rem;
+    padding: 3px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    /* border: none; */
+    border-bottom: 2px groove gray;
+    border-radius: 1rem;
+
+    outline: none;
+    transition: all 0.3s;
+}
+
+.search:focus {
+    outline: none;
+    box-shadow: 0 1.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.explore-menu main {
+    position: relative;
+}
+
+.search-icon {
+    background-image: url(./assets/search.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 3rem;
+    height: 3rem;
+
+    filter: opacity(50%);
+
+    position: absolute;
+    bottom: -35%;
+    right: -15px;
+    transform: translate(-50%, -50%);
+}
+
+.detailed-info {
+    display: flex;
+    justify-content: space-between;
+
+    font-weight: bold;
+
+    width: 100%;
+
+    /* position: relative; */
+}
+
+.name {
+    place-self: center;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 1px #6e1000d0;
+    color: #ff2600;
+}
+
+.details {
+    font-weight: bold;
+    background-color: #222;
+    cursor: pointer;
+    transition: 250ms;
+    box-shadow: 5px 5px 5px #555;
+
+    border: none;
+    color: white;
+    padding: 0.5rem;
+}
+
+.details:hover {
+    /* scale: 0.9; */
+    box-shadow: 5px 5px 5px white;
+}
+
+.more-details table tr:nth-child(odd) {
+    background-color: rgb(236, 99, 48);
+    color: white;
+}
+
+.more-details table tr:nth-child(even) {
+    background-color: rgb(255, 116, 65);
+    color: #111;
+}
+
+.more-details table tr> :first-child {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.more-details table td {
+    padding: 5px;
+}
+
+.buy {
+    background: orangered;
+    color: white;
+    border: none;
+}
+
+.lighter {
+    font-weight: lighter;
+}
+
+.review-count {
+    width: 3rem;
+    color: #333;
+}
+
+.add-rating-text {
+    color: #9b6f00;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.star-rating-text {
+    line-height: 1;
+    margin: 0;
+    font-size: 1rem;
+    position: absolute;
+    top: 50%;
+    right: -30%;
+}
+
+.error-msg {
+    color: red;
+    width: 80%;
+    margin: 0;
+}
+
+.error-list {
+    display: flex;
+    flex-direction: column;
+    /* place-content: center;
+    place-items: center; */
+}
+
+.close-button {
+    border: none;
+    background-color: inherit;
+    transition: 250ms;
+    border-radius: 100%;
+}
+
+.close-button:hover {
+    scale: 1.1;
+    background-color: orangered;
+    color: white;
+    border-radius: 100%;
+}
+
+button:disabled {
+    background-color: #111 !important;
+    color: white !important;
+}
+
+.active-link {
+    color: #333 !important;
+}
+
+.add-meal-page {
+    position: relative;
+}
+
+.add-meal-page nav {
+    position: absolute;
+    top: 7.75rem;
+    background-color: #ff3c00;
+    width: 20rem;
+    height: 28rem;
+    padding: 3rem 0;
+}
+
+.add-meal-page header {
+    border-bottom: 4px solid #ff3c00;
+}
+
+.add-meal-page nav li {
+    list-style-type: none;
+    padding: 1.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    color: white;
+}
+
+.add-meal-page main {
+    position: relative;
+}
+
+.add-meal-page main form {
+    padding-top: 3rem;
+    position: absolute;
+    top: 90%;
+    left: 30%;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    gap: 2rem;
+    /* transform: translate(-50%, -50%);/ */
+}
+
+.add-meal-page input {
+    height: 1.5rem;
+}
+
+.add-meal-page input:not(.price-input),
+.add-meal-page textarea {
+    width: 25rem;
+}
+
+.add-meal-page textarea {
+    height: 10rem;
+}
+
+.add-meal-page form div {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+.add-meal-page form .flex-row {
+    display: flex;
+    flex-direction: row;
+    place-content: center;
+    place-items: center;
+    gap: 2rem;
+}
+
+.add-meal-page .price-input,
+.add-meal-page .select {
+    width: 15rem;
+}
+
+.add-meal-page input[type="image"] {
+    width: 5rem;
+    height: 5rem;
+    place-self: start;
+}
+
+.add-meal-page form .flex-row div {
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+.add-meal-page form button {
+    width: 8rem;
+    padding: 1rem 0.5rem;
+    place-self: start;
+    background-color: #222;
+    color: white;
+    border: none;
 }

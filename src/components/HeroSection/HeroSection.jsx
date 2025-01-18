@@ -1,4 +1,4 @@
-export default function HeroSection() {
+export default function HeroSection({ setShowMenu }) {
     return (
         <main className="hero-section">
             <h1>Order your <br /> favourite food here</h1>

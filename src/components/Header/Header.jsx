@@ -1,35 +1,67 @@
-import { useState } from "react"
 
-export default function Header({ onSetOpenedSignUp, onSetOpenedCardPage }) {
+
+export default function Header({ children,
+    setOpenCardPage,
+    openAccountPage,
+    setOpenAccountPage,
+    openCardPage,
+    openAddMealPage,
+    setOpenAddMealPage,
+    openHomePage,
+    setOpenHomePage,
+}) {
+
+    function handleGoToHomePage() {
+        setOpenHomePage(true);
+        setOpenCardPage(false);
+        setOpenAccountPage(false);
+        setOpenAddMealPage(false);
+    }
+
+    function handleGoToUserAccountPage() {
+        setOpenHomePage(false);
+        setOpenAccountPage(true);
+        setOpenCardPage(false);
+        setOpenAddMealPage(false)
+    }
+
+    function handleGoToAddMealPage() {
+        setOpenHomePage(false);
+        setOpenCardPage(false);
+        setOpenAccountPage(false);
+        setOpenAddMealPage(true);
+    }
+
     return (
         <header>
-            <h1>Tomato 🍅</h1>
+            <h1>🍅 Tomato</h1>
             <ul className="links">
                 <li>
-                    <a href="">home</a>
+                    <a href="#" className={openHomePage ? "active-link" : ""} onClick={handleGoToHomePage}>home</a>
+                    {!openCardPage && <div className="line"></div>}
+                </li>
+                <li>
+                    <a href="#">menu</a>
+                    <div className="line"></div>
+                </li>
+
+                <li>
+                    <a href="#" className={openAddMealPage ? "active-link" : ""} onClick={handleGoToAddMealPage}>add meal</a>
                     <div className="line"></div>
                 </li>
                 <li>
-                    <a href="">menu</a>
-                    <div className="line"></div>
+                    <a href="#" className={openAccountPage ? "active-link" : ""} onClick={handleGoToUserAccountPage}>my account</a>
+                    {!openAccountPage && <div className="line"></div>}
                 </li>
                 <li>
-                    <a href="">mobile app</a>
-                    <div className="line"></div>
-                </li>
-                <li>
-                    <a href="">contact us</a>
+                    <a href="#">contact us</a>
                     <div className="line"></div>
                 </li>
             </ul>
             <ul className="icons">
-                <li>
-                    <div className="search-icon"></div>
-                </li>
-                <li><div className="basket-icon" role="button" onClick={() => onSetOpenedCardPage((showCardPage) => !showCardPage)}></div></li>
-                <li><button onClick={() => onSetOpenedSignUp(true)}>Sign in</button></li>
+                {children}
             </ul>
-        </header>
+        </header >
     )
 }
 
