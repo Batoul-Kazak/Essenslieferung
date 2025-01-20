@@ -76,6 +76,6 @@ export default function Header({
                 {children}
             </ul>
         </header >
-    )
+    );
 }
 

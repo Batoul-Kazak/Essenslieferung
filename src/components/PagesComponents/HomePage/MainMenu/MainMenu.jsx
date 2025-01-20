@@ -1,14 +1,10 @@
 
+import Dish from "./../../../Reusable Components/Dish";
 
-import { useEffect, useState } from "react"
-import Dish from "../../Dish";
-
-export default function MainMenu({ recipe,
-    setQuery,
-    setOpenCardPage,
+export default function MainMenu({
+    recipe,
     recipesOrder,
     setRecipesOrder,
-    showMenu
 }) {
     const localStorageData = []; // Array to store key-value pairs
 

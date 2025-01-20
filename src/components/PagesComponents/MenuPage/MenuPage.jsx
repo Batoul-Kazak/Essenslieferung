@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import Loader from "../../Loader";
-import ErrorMessage from "../../ErrorMessage";
-import Dish from "../../Dish";
+import Loader from "../../Reusable Components/Loader";
+import ErrorMessage from "../../Reusable Components/ErrorMessage";
+import Dish from "./../../Reusable Components/Dish";
 
 export default function MenuPage({
     children,

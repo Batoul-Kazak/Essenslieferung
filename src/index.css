@@ -47,7 +47,7 @@ header .icons {
 
 header .search-icon,
 header .basket-icon {
-    background-image: url("./assets/search_icon.png");
+    background-image: url("./assets/1/search_icon.png");
     background-position: center;
     background-size: cover;
     background-position: no-repeat;
@@ -57,7 +57,7 @@ header .basket-icon {
 }
 
 header .basket-icon {
-    background-image: url(./assets/basket_icon.png);
+    background-image: url(./assets/1/basket_icon.png);
 }
 
 header .icons button {
@@ -105,7 +105,7 @@ header a {
 }
 
 .hero-section {
-    background-image: url("./assets/header_img.png");
+    background-image: url("./assets/1/header_img.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -299,7 +299,7 @@ header a {
 .main-menu .adding-control button {
     padding: 0.5rem;
     font-size: 0.8rem;
-    background-image: url("./assets/add_icon_white.png");
+    background-image: url("./assets/1/add_icon_white.png");
     background-position: center;
     background-size: cover;
     width: 2rem;
@@ -315,12 +315,12 @@ header a {
 }
 
 .main-menu .adding-control .add-green {
-    background-image: url("./assets/add_icon_green.png");
+    background-image: url("./assets/1/add_icon_green.png");
 }
 
 .main-menu .adding-control .remove,
 .remove {
-    background-image: url("./assets/remove_icon_red.png");
+    background-image: url("./assets/1/remove_icon_red.png");
 
 }
 
@@ -385,11 +385,11 @@ header a {
 }
 
 .advertisement-section section :first-child {
-    background-image: url(./assets/app_store.png);
+    background-image: url(./assets/1/app_store.png);
 }
 
 .advertisement-section section :last-child {
-    background-image: url(./assets/play_store.png);
+    background-image: url(./assets/1/play_store.png);
 }
 
 footer {
@@ -826,7 +826,7 @@ table td {
 }
 
 .search-icon {
-    background-image: url(./assets/search.png);
+    background-image: url(./assets/1/search.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
