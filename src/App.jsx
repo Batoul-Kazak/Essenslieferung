@@ -137,7 +137,7 @@ export default function App() {
                 </Header>
             </UserAccountInfo>
             }
-            {openAddMealPage && <AddMealPage setSpecificMeals={setSpecificMeals}>
+            {openAddMealPage && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
                 <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
                     setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
                     openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}

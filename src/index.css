@@ -965,27 +965,63 @@ button:disabled {
     position: relative;
 }
 
+.add-meal-page .flex {
+    display: flex;
+    place-content: start;
+    place-items: start;
+    gap: 5rem;
+}
+
 .add-meal-page nav {
-    position: absolute;
-    top: 7.75rem;
-    background-color: #ff3c00;
-    width: 20rem;
-    height: 28rem;
+    width: 30rem;
+    height: 100%;
     padding: 3rem 0;
+    background-color: wheat;
+
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
 }
 
 .add-meal-page header {
     border-bottom: 4px solid #ff3c00;
 }
 
+.add-meal-page nav ul {
+    width: 100%;
+}
+
 .add-meal-page nav li {
     list-style-type: none;
     padding: 1.5rem;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     text-decoration: underline;
-    color: white;
+    color: #333;
+    border-bottom: 1px solid #555;
+    width: 80%;
+    transition: 250ms;
+
+    display: flex;
+    place-content: space-between;
+    place-items: center;
+}
+
+.add-meal-page nav li:hover {
+    background-color: #fff1d7;
+}
+
+.add-meal-page nav .image-place {
+    width: 2rem;
+    aspect-ratio: 1;
+    background-color: #3333337a;
+}
+
+.add-meal-page nav button {
+    background-color: inherit;
+    border: none;
 }
 
 .add-meal-page main {
@@ -994,9 +1030,9 @@ button:disabled {
 
 .add-meal-page main form {
     padding-top: 3rem;
-    position: absolute;
-    top: 90%;
-    left: 30%;
+    /* position: absolute; */
+    /* top: 90%; */
+    /* left: 30%; */
 
     display: flex;
     flex-direction: column;
@@ -1083,6 +1119,9 @@ button:disabled {
     background-position: center;
     background-size: cover;
     filter: brightness(120%);
+    border: none;
+    padding: 0;
+    background-color: inherit;
 }
 
 .add-meal-page form .list ol {
