@@ -15,6 +15,11 @@ import Curtain from "./Curtain"
 import UserAccountInfo from "./components/UserAccountInfo/UserAccountInfo"
 import AddMealPage from "./components/AddMealPage/AddMealPage"
 
+import MenuPage from "./components/MenuPage/MenuPage"
+
+import Loader from "./Loader"
+import ErrorMessage from "./ErrorMessage"
+
 // import { DISHES, SIGNED_UP_USERS } from "./constants"
 
 export default function App() {
@@ -23,7 +28,6 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [recipesOrder, setRecipesOrder] = useState([]);
-    // const [showMenu, setShowMenu] = useState(false);
 
     const [openedPopup, setOpenedPopup] = useState("none");
     const [users, setUsers] = useState([]);
@@ -32,6 +36,9 @@ export default function App() {
     const [openCardPage, setOpenCardPage] = useState(false);
     const [openAddMealPage, setOpenAddMealPage] = useState(false);
     const [openHomePage, setOpenHomePage] = useState(true);
+    const [openMenuPage, setOpenMenuPage] = useState(false);
+
+    const [specificMeals, setSpecificMeals] = useState([]);
 
     useEffect(function () {
         const controller = new AbortController();
@@ -39,6 +46,7 @@ export default function App() {
             try {
                 setError("");
                 setIsLoading(true);
+
                 const res = await fetch(`https://dummyjson.com/recipes/search?q=${query}`
                     , { signal: controller.signal }
                 );
@@ -90,13 +98,28 @@ export default function App() {
 
     }, [openCardPage]);
 
+
+
     return (
         <div className="app">
+            {openMenuPage && <MenuPage recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
+                setOpenAddMealPage={setOpenAddMealPage} setOpenMenuPage={setOpenMenuPage}
+            >
+                <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
+                    setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
+                    openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
+                    openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
+                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
+                >
+                    <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
+                </Header>
+            </MenuPage>}
             {openCardPage && <CardPage setOpenCardPage={setOpenCardPage}>
                 <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
                     setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
                     openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
                     openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
+                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
@@ -108,16 +131,20 @@ export default function App() {
                     setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
                     openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
                     openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
+                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
             </UserAccountInfo>
             }
-            {openAddMealPage && <AddMealPage>
+            {openAddMealPage && <AddMealPage setSpecificMeals={setSpecificMeals}>
                 <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
                     setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
                     openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
                     openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
+                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
+
+
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
@@ -129,6 +156,7 @@ export default function App() {
                         openCardPage={openCardPage} openAccountPage={openAccountPage}
                         openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
                         openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
+                        openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
                     >
                         <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                         <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
@@ -159,12 +187,5 @@ export default function App() {
     )
 }
 
-function Loader() {
-    return <p className="loader">Loading...</p>
-}
 
-function ErrorMessage({ message }) {
-    return <div className="error">
-        🛑 <p>{message}</p>
-    </div>
-}
+

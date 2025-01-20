@@ -1,33 +1,42 @@
 import { useEffect, useState } from "react"
 
 export default function DishInfoCard({ recipesOrder, setRecipesOrder }) {
+    const [isDelivered, setIsDelivered] = useState(false);
+
     const totalPrice_forRecipe = recipesOrder.map(recipe => Number(recipe.totalPrice));
     const checkAmount = totalPrice_forRecipe.reduce((acc, recipeTotalPrice) => acc + recipeTotalPrice, 0);
 
     const totalTimeNeeded = recipesOrder.map(recipe => Number(recipe.totalTime))
         .reduce((acc, totalTime) => acc + totalTime, 0);
 
+    const hours = (totalTimeNeeded / 60).toFixed(0);
+    const minutes = totalTimeNeeded % 60;
+
     return (
         <section className="dish-info-card">
-            {!recipesOrder.length ? <p>No Selected Meals!</p> :
-                <table className="dish-info-card-show">
-                    <tr>
-                        <td>image</td>
-                        <td>Title</td>
-                        <td>Price</td>
-                        <td>Quantity</td>
-                        <td>Total</td>
-                        <td>Remove</td>
-                    </tr>
-                    {recipesOrder.map((recipe) => <DishInfo key={recipe.id}
-                        recipe={recipe} setRecipesOrder={setRecipesOrder}
-                    />)}
-                </table>
-            }
-            <div className="dish-info-card-side-section">
-                <CartTotal checkAmount={checkAmount} totalTimeNeeded={totalTimeNeeded} />
-                <PromoCode />
-            </div>
+            {isDelivered && <p>{`we are working on your recipes, please wait ${hours > 1 ? hours + " hours" : (hours == 1) ?
+                " one hour " : ""} ${minutes > 0 ? `and ${minutes} min` : ""} until we deliver it to your home`}</p>}
+            {!isDelivered && <>
+                {!recipesOrder.length ? <p>No Selected Meals!</p> :
+                    <table className="dish-info-card-show">
+                        <tr>
+                            <td>image</td>
+                            <td>Title</td>
+                            <td>Price</td>
+                            <td>Quantity</td>
+                            <td>Total</td>
+                            <td>Remove</td>
+                        </tr>
+                        {recipesOrder.map((recipe) => <DishInfo key={recipe.id}
+                            recipe={recipe} setRecipesOrder={setRecipesOrder}
+                        />)}
+                    </table>
+                }
+                <div className="dish-info-card-side-section">
+                    <CartTotal checkAmount={checkAmount} setIsDelivered={setIsDelivered} />
+                    <PromoCode />
+                </div>
+            </>}
         </section>
     )
 }
@@ -57,12 +66,10 @@ function DishInfo({
     );
 }
 
-function CartTotal({ checkAmount, totalTimeNeeded }) {
+function CartTotal({ checkAmount, setIsDelivered }) {
 
-    function handleProceedToCheckout() {
-        const hours = (totalTimeNeeded / 60).toFixed(0);
-        const minutes = totalTimeNeeded % 60;
-        alert(`we are working on your recipes, please wait ${hours > 1 ? hours + " hours" : (hours == 1) ? " one hour " : ""} ${minutes > 0 ? `and ${minutes} min` : ""} until we deliver it to your home`);
+    function handleProceedToCheck() {
+        setIsDelivered(true);
     }
 
     return (
@@ -82,7 +89,7 @@ function CartTotal({ checkAmount, totalTimeNeeded }) {
                     <p>{checkAmount ? (checkAmount + 5).toFixed(1) : 0}$</p>
                 </div>
             </div>
-            <button onClick={handleProceedToCheckout} disabled={!checkAmount}>PROCEED TO CHECKOUT</button>
+            <button onClick={() => handleProceedToCheck()} disabled={!checkAmount}>PROCEED TO CHECKOUT</button>
         </section>
     )
 }

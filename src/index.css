@@ -195,6 +195,10 @@ header a {
     color: #555;
 }
 
+.menu-page .main-menu {
+    place-self: center;
+}
+
 .main-menu {
     width: 80%;
 
@@ -314,7 +318,8 @@ header a {
     background-image: url("./assets/add_icon_green.png");
 }
 
-.main-menu .adding-control .remove {
+.main-menu .adding-control .remove,
+.remove {
     background-image: url("./assets/remove_icon_red.png");
 
 }
@@ -604,7 +609,8 @@ form.register-info section button:hover {
 
 .card-page,
 .user-account-info-page,
-.add-meal-page {
+.add-meal-page,
+.menu-page {
     position: absolute;
     inset: 0 0 auto 0;
     width: 100%;
@@ -617,7 +623,8 @@ form.register-info section button:hover {
 }
 
 .user-account-info-page header,
-.add-meal-page header {
+.add-meal-page header,
+.menu-page header {
     place-self: center;
 }
 
@@ -994,16 +1001,21 @@ button:disabled {
     display: flex;
     flex-direction: column;
     place-content: center;
-    place-items: center;
+    place-items: start;
     gap: 2rem;
     /* transform: translate(-50%, -50%);/ */
+}
+
+.add-meal-page main form section {
+    display: flex;
+    gap: 2rem;
+    place-self: start;
 }
 
 .add-meal-page input {
     height: 1.5rem;
 }
 
-.add-meal-page input:not(.price-input),
 .add-meal-page textarea {
     width: 25rem;
 }
@@ -1016,18 +1028,18 @@ button:disabled {
     display: flex;
     flex-direction: column;
     place-content: center;
-    place-items: center;
+    place-items: start;
 }
 
 .add-meal-page form .flex-row {
     display: flex;
     flex-direction: row;
-    place-content: center;
+    place-content: space-between;
     place-items: center;
-    gap: 2rem;
+
+    width: 100%;
 }
 
-.add-meal-page .price-input,
 .add-meal-page .select {
     width: 15rem;
 }
@@ -1044,6 +1056,70 @@ button:disabled {
     flex-direction: column;
     place-content: center;
     place-items: center;
+    gap: 1rem;
+}
+
+.add-meal-page form .add-ingredient-button {
+    border-radius: 2rem;
+    background-color: #c24010;
+    padding: 1rem;
+    width: 15%;
+}
+
+.add-meal-page form .ingredient-input {
+    width: 70%;
+    border-radius: 1rem;
+    padding: 5px 5px 5px 2rem;
+}
+
+.add-meal-page form .list {
+    width: 100%;
+    margin-top: -2rem;
+}
+
+.add-meal-page form .remove {
+    width: 1.4rem;
+    aspect-ratio: 1;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(120%);
+}
+
+.add-meal-page form .list ol {
+    place-self: start;
+    width: 100%;
+}
+
+.add-meal-page form .date {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+.add-meal-page .date input {
+    margin: 0 1rem;
+}
+
+.add-meal-page label {
+    font-weight: bold;
+}
+
+.add-meal-page form .ingredient-container {
+    padding: 5px;
+    border-bottom: 1px solid #888;
+    transition: 250ms;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    place-content: space-between;
+    place-items: center;
+}
+
+.add-meal-page form .ingredient-container:hover {
+    background-color: wheat;
+    cursor: pointer;
 }
 
 .add-meal-page form button {
@@ -1053,4 +1129,10 @@ button:disabled {
     background-color: #222;
     color: white;
     border: none;
+}
+
+.add-meal-page .price-displayer {
+    color: green;
+    border-radius: 1rem;
+    font-weight: bold;
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export function AddingControl({
+export default function AddingControl({
     setIsClicked,
     setCanOrder,
     dishAmount,

@@ -1,6 +1,7 @@
 
 
-export default function Header({ children,
+export default function Header({
+    children,
     setOpenCardPage,
     openAccountPage,
     setOpenAccountPage,
@@ -9,6 +10,8 @@ export default function Header({ children,
     setOpenAddMealPage,
     openHomePage,
     setOpenHomePage,
+    openMenuPage,
+    setOpenMenuPage
 }) {
 
     function handleGoToHomePage() {
@@ -16,13 +19,15 @@ export default function Header({ children,
         setOpenCardPage(false);
         setOpenAccountPage(false);
         setOpenAddMealPage(false);
+        setOpenMenuPage(false);
     }
 
     function handleGoToUserAccountPage() {
         setOpenHomePage(false);
         setOpenAccountPage(true);
         setOpenCardPage(false);
-        setOpenAddMealPage(false)
+        setOpenAddMealPage(false);
+        setOpenMenuPage(false);
     }
 
     function handleGoToAddMealPage() {
@@ -30,6 +35,15 @@ export default function Header({ children,
         setOpenCardPage(false);
         setOpenAccountPage(false);
         setOpenAddMealPage(true);
+        setOpenMenuPage(false);
+    }
+
+    function handleGoToMenuPage() {
+        setOpenHomePage(false);
+        setOpenAccountPage(false);
+        setOpenCardPage(false);
+        setOpenAddMealPage(false);
+        setOpenMenuPage(true);
     }
 
     return (
@@ -41,8 +55,8 @@ export default function Header({ children,
                     {!openCardPage && <div className="line"></div>}
                 </li>
                 <li>
-                    <a href="#">menu</a>
-                    <div className="line"></div>
+                    <a href="#" className={openMenuPage ? "active-link" : ""} onClick={handleGoToMenuPage}>menu</a>
+                    {!openMenuPage && <div className="line"></div>}
                 </li>
 
                 <li>
