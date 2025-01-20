@@ -57,7 +57,7 @@ header .basket-icon {
 }
 
 header .basket-icon {
-    background-image: url(./assets/1/basket_icon.png);
+    background-image: url(./assets/basket_icon.png);
 }
 
 header .icons button {
@@ -321,7 +321,6 @@ header a {
 .main-menu .adding-control .remove,
 .remove {
     background-image: url("./assets/1/remove_icon_red.png");
-
 }
 
 .main-menu .dish .add:hover,
@@ -1174,4 +1173,12 @@ button:disabled {
     color: green;
     border-radius: 1rem;
     font-weight: bold;
+}
+
+.warning-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
 }

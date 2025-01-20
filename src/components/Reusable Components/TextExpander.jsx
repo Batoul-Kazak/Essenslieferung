@@ -6,7 +6,6 @@ export default function TextExpander({
     revealText = "Show text", hideText = "Collapse text",
     text1 = "text1", children,
     onSetShowText, defaultTextState = false,
-
 }) {
     const [showText, setShowText] = useState(defaultTextState);
 

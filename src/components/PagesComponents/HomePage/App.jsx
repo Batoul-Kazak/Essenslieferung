@@ -10,7 +10,7 @@ import Login from "./../../Reusable Components/Header/components/Login"
 
 import CardPage from "./../CardPage/CardPage"
 import DishInfoCard from "./../CardPage/components/DishInfoCard"
-import Curtain from "./Curtain"
+import Curtain from "./../../Reusable Components/Curtain"
 import UserAccountInfo from "./../UserAccountInfoPage/UserAccountInfoPage"
 import AddMealPage from "./../AddMealPage/AddMealPage"
 
@@ -18,7 +18,6 @@ import MenuPage from "./../MenuPage/MenuPage"
 
 import Loader from "./../../Reusable Components/Loader"
 import ErrorMessage from "./../../Reusable Components/ErrorMessage"
-
 // import { DISHES, SIGNED_UP_USERS } from "./constants"
 
 export default function App() {

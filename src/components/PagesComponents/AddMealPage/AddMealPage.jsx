@@ -1,6 +1,45 @@
+import Warning from "../../Reusable Components/Warning";
 import { useState } from "react";
 
 export default function AddMealPage({ children, specificMeals, setSpecificMeals }) {
+    const [sortedBy, setSortedBy] = useState("firstAdded");
+    const [isShowWarning, setIsShowWarning] = useState(false);
+    const [isYes, setIsYes] = useState(null);
+    const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all specific meals";
+    let sortedSpecificMeals = [];
+
+    if (sortedBy === "firstAdded") { sortedSpecificMeals = specificMeals; }
+
+    if (sortedBy === "makingTime") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.time - b.time)); }
+
+    if (sortedBy === "price") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a - b); }
+
+    if (sortedBy === "name") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a.localeStringCompare(b)) }
+
+    function handleWarningAnswer(answer) {
+        setIsYes(answer);
+
+        if (isYes) {
+            setIsShowWarning(false);
+            setSpecificMeals([]);
+        }
+        else {
+            setIsShowWarning(false);
+        }
+        setIsYes(null);
+    }
+
+    function handleClearAllSpecificMeals() {
+        setIsShowWarning(true);
+        console.log(isShowWarning);
+    }
+
+    function handleDeleteSpecificMeal(name) {
+        setSpecificMeals(specificMeals => specificMeals.map(item => item.name !== name));
+        console.log(specificMeals)
+    }
+
+
     return (
         <section className="add-meal-page">
             {children}
@@ -9,19 +48,31 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                 <nav>
                     <h2>Your Created Meals</h2>
                     <ul>
-                        {specificMeals.map(item => <Meal key={item.id} item={item} />)}
+                        {sortedSpecificMeals.map(item => <Meal key={item.id} item={item}
+                            handleDeleteSpecificMeal={handleDeleteSpecificMeal} />)}
                     </ul>
+                    <div style={{ display: "flex", gap: "4rem" }}>
+                        <button onClick={handleClearAllSpecificMeals}>Clear All</button>
+                        <select value={sortedBy} onChange={(e) => setSortedBy(e.target.value)}>
+                            <option value="makingTime">sort by making time</option>
+                            <option value="name">sort by name</option>
+                            <option value="price">sort by price</option>
+                            <option value="firstAdded">sort by first added</option>
+                        </select>
+                    </div>
                 </nav>
 
                 <main>
                     <NewMealInfo setSpecificMeals={setSpecificMeals} specificMeals={specificMeals} />
                 </main>
             </section>
+
+            {isShowWarning && <Warning onAnswer={handleWarningAnswer} message={warningMsg} />}
         </section>
     );
 }
 
-function Meal({ item }) {
+function Meal({ item, handleDeleteSpecificMeal }) {
     return (
         <li>
             <div>
@@ -33,7 +84,7 @@ function Meal({ item }) {
             <div>{item.time}</div>
             <div>{item.date}</div>
             {/* <div>{item.description}</div> */}
-            <button>×</button>
+            <button onClick={() => handleDeleteSpecificMeal(item.name)}>×</button>
         </li>
     );
 }
@@ -71,10 +122,14 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
             description: description,
             time: time,
             date: date,
+            ingredients: ingredients,
             price: price
         };
 
-        setSpecificMeals(specificMeals => [...specificMeals, newSpecificMeal]);
+        const isExist = specificMeals.find(meal => meal.name === name);
+        if (!isExist)
+            setSpecificMeals(specificMeals => [...specificMeals, newSpecificMeal]);
+
         console.log(specificMeals);
     }
 
