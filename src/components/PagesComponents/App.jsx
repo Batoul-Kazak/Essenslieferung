@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import Header from "./../../Reusable Components/Header/Header"
-import CartPage from "./../CartPage/CartPage"
-import DishInfoCart from "./../CartPage/components/DishInfoCart"
-import UserAccountInfo from "./../UserAccountInfoPage/UserAccountInfoPage"
-import AddMealPage from "./../AddMealPage/AddMealPage"
-import MenuPage from "./../MenuPage/MenuPage"
-import HomePage from "./HomePage"
+import Header from "./../Reusable Components/Header/Header"
+import CartPage from "./CartPage/CartPage"
+import DishInfoCart from "./CartPage/components/DishInfoCart"
+import UserAccountInfo from "./UserAccountInfoPage/UserAccountInfoPage"
+import AddMealPage from "./AddMealPage/AddMealPage"
+import MenuPage from "./MenuPage/MenuPage"
+import HomePage from "./HomePage/HomePage"
 
 export default function App() {
     const [query, setQuery] = useState("");
