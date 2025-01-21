@@ -3,21 +3,28 @@ import Curtain from "../../Reusable Components/Curtain";
 import { useState } from "react";
 
 export default function AddMealPage({ children, specificMeals, setSpecificMeals }) {
-    const [sortedBy, setSortedBy] = useState("firstAdded");
+    const [sortedBy, setSortedBy] = useState("timeAdded");
+    const [typeOfSorting, setTypeOfSorting] = useState("ascending");
     const [isShowWarning, setIsShowWarning] = useState(false);
     const [isYes, setIsYes] = useState(null);
-    const [isForCompany, setIsForCompany] = useState(false);
-    const [mealsQuantity, setMealsQuantity] = useState(1);
     const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all specific meals";
     let sortedSpecificMeals = [];
 
-    if (sortedBy === "firstAdded") { sortedSpecificMeals = specificMeals; }
+    if (typeOfSorting === "ascending") {
+        if (sortedBy === "timeAdded") { sortedSpecificMeals = specificMeals; }
+        if (sortedBy === "makingTime") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.time) - Number(b.time)); }
+        if (sortedBy === "price") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.price) - Number(b.price)); }
+        if (sortedBy === "name") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a.name.localeCompare(b.name)) }
+        if (sortedBy === "soldState") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.isForCompany) - Number(b.isForCompany)) }
+    }
 
-    if (sortedBy === "makingTime") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.time) - Number(b.time)); }
-
-    if (sortedBy === "price") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.price) - Number(b.price)); }
-
-    if (sortedBy === "name") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a.name.localeCompare(b.name)) }
+    if (typeOfSorting === "descending") {
+        if (sortedBy === "timeAdded") { sortedSpecificMeals = specificMeals.reverse(); }
+        if (sortedBy === "makingTime") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(b.time) - Number(a.time)); }
+        if (sortedBy === "price") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(b.price) - Number(a.price)); }
+        if (sortedBy === "name") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => b.name.localeCompare(a.name)) }
+        if (sortedBy === "soldState") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(b.isForCompany) - Number(a.isForCompany)) }
+    }
 
     function handleWarningAnswerIfYes() {
         setIsShowWarning(false);
@@ -54,26 +61,38 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                         <p>You have {sortedSpecificMeals.length} meals from your creation</p>
                     </>
                         : <p>No meals added</p>}
-                    <ul>
+                    <table>
+                        <tr>
+                            <td>image</td>
+                            <td>quantity</td>
+                            <td>meal</td>
+                            <td>make time</td>
+                            <td>make date</td>
+                            <td>status</td>
+                            <td></td>
+                        </tr>
                         {sortedSpecificMeals.map(item => <Meal key={item.name} item={item}
                             handleDeleteSpecificMeal={handleDeleteSpecificMeal}
                         />)}
-                    </ul>
-                    <div style={{ display: "flex", gap: "4rem" }}>
+                    </table>
+                    <div style={{ display: "flex", gap: "1rem" }}>
                         <button onClick={handleClearAllSpecificMeals}>Clear All</button>
                         <select value={sortedBy} onChange={(e) => setSortedBy(e.target.value)}>
                             <option value="makingTime">sort by making time</option>
                             <option value="name">sort by name</option>
                             <option value="price">sort by price</option>
-                            <option value="firstAdded">sort by first added</option>
+                            <option value="timeAdded">sort by first added</option>
+                            <option value="soldState">sold state</option>
+                        </select>
+                        <select value={typeOfSorting} onChange={(e) => setTypeOfSorting(e.target.value)}>
+                            <option value="ascending">Ascending</option>
+                            <option value="descending">Descending</option>
                         </select>
                     </div>
                 </nav>
 
                 <main>
                     <NewMealInfo setSpecificMeals={setSpecificMeals} specificMeals={specificMeals}
-                        isForCompany={isForCompany} setIsForCompany={setIsForCompany}
-                        mealsQuantity={mealsQuantity} setMealsQuantity={setMealsQuantity}
                     />
                 </main>
             </section>
@@ -84,31 +103,34 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
     );
 }
 
-function Meal({ item, handleDeleteSpecificMeal }) {
+function Meal({
+    item,
+    handleDeleteSpecificMeal
+}) {
     return (
-        <li>
-            <div>
+        <tr>
+            <td className="image-displayer">
                 {item.image ? <img src={item.image} alt="" />
                     : <div className="image-place"></div>
                 }
-            </div>
-            <div>{item.name}</div>
-            <div>{item.time}</div>
-            <div>{item.date}</div>
-            {isForCompany && <div>Your meal is sent to manager</div>}
+            </td>
+            <td>{item.quantity}</td>
+            <td>{item.name}</td>
+            <td>{item.time}</td>
+            <td>{item.date}</td>
+            <td>{item.isForCompany ? "to sold" : "for you"}</td>
+
             {/* <div>{item.description}</div> */}
-            <button onClick={() => handleDeleteSpecificMeal(item.name)}>×</button>
-        </li>
+            <td>
+                <button onClick={() => handleDeleteSpecificMeal(item.name)}>×</button>
+            </td>
+        </tr>
     );
 }
 
 function NewMealInfo({
     setSpecificMeals,
-    specificMeals,
-    isForCompany,
-    setIsForCompany,
-    mealsQuantity,
-    setMealsQuantity
+    specificMeals
 }) {
     const now = new Date();
     // const year = now.getFullYear();
@@ -116,13 +138,15 @@ function NewMealInfo({
     // const day = String(now.getDate()).padStart(2, '0');
     // const currentDate = `${year}-${month}-${day}`;
     const currentDate = now.toISOString().slice(0, 10);
-
+    const [isForCompany, setIsForCompany] = useState(false);
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const currentTime = `${hours}:${minutes}`;
+    const [mealsQuantity, setMealsQuantity] = useState(1);
 
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
+    const [previewURL, setPreviewURL] = useState(null);
     const [ingredientItem, setIngredientItem] = useState("");
     const [date, setDate] = useState(currentDate);
     const [time, setTime] = useState(currentTime);
@@ -134,7 +158,7 @@ function NewMealInfo({
         e.preventDefault();
 
         const newSpecificMeal = {
-            image: image,
+            image: previewURL,
             name: name,
             description: description,
             time: time,
@@ -156,7 +180,10 @@ function NewMealInfo({
 
         setSpecificMeals(specificMeals => [...specificMeals, newSpecificMeal]);
 
-        console.log(specificMeals);
+        if (isForCompany)
+            alert("Your recipe is sent successfully, you can contact us by our email, thank you for being apart from our company 😊");
+        else
+            alert("Your meal has been added successfully");
         handleResetForm();
     }
 
@@ -168,6 +195,8 @@ function NewMealInfo({
         setIngredients([]);
         setIngredientItem("");
         setPrice(0);
+        setIsForCompany(false);
+        setMealsQuantity(1);
     }
 
     function handleAddIngredient() {
@@ -194,24 +223,50 @@ function NewMealInfo({
         setPrice(price => price - 10);
     }
 
+    const handleImageChange = (event) => {
+        const file = event.target.files[0]; // Get the selected file
+
+        if (file) {
+            setImage(file); // Store the file in state
+            const reader = new FileReader(); // Use FileReader to preview
+            reader.onloadend = () => {
+                setPreviewURL(reader.result); // Set the preview URL
+            };
+            reader.readAsDataURL(file); // Read the file as a data URL.
+        } else {
+            setImage(null);
+            setPreviewURL(null);
+        }
+    };
+
     return (
         <form>
             <section>
                 <div>
                     <label htmlFor="">Upload image</label>
-                    <input type="image" src={image} onChange={(e) => setImage(e.target.src)} />
+                    <input type="file" accept="image/*" onChange={handleImageChange} />
                 </div>
-                <div className="flex-col">
-                    <div>
-                        <label htmlFor="">Product name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-                    </div>
-                    <div className="flex-row">
-                        <input type="checkbox" value={isForCompany} onChange={(e) => setIsForCompany(e.target.value)} />
-                        <label htmlFor="">Do you want to upload your meal on our website?</label>
-                    </div>
+                <div>
+                    {previewURL && ( // Conditionally render the image preview
+                        <div className="image-displayer"> {/* Styling the div */}
+                            <img
+                                src={previewURL}
+                                alt="Image Preview"
+                            />
+                        </div>)}
                 </div>
             </section>
+            <div className="flex-col">
+                <div>
+                    <label htmlFor="">Product name</label>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                </div>
+                <div className="flex-row">
+                    <input type="checkbox" value={isForCompany} onChange={(e) => setIsForCompany(e.target.value)} />
+                    <label htmlFor="">Do you want to upload your meal on our website?</label>
+                </div>
+            </div>
+
             <div>
                 <label htmlFor="">Product description and notes:</label>
                 <textarea type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
@@ -245,7 +300,7 @@ function NewMealInfo({
                         handleRemoveIngredient={handleRemoveIngredient} />)}
                 </ol>
             </div>
-            <div className="flex-row">
+            <div className="flex-row-ingredient">
                 <button onClick={handleAddNewSpecificMeal}>{isForCompany ? "Upload Meal" : "Order"}</button>
                 {price > 0 && <div className="price-displayer">{!isForCompany ? `the price of your meal is ${price}` :
                     `you need to pay ${price / 2} for each meal of this type and you will earn ${(price / 2)}`

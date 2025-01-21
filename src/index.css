@@ -916,7 +916,7 @@ button:disabled {
 }
 
 .add-meal-page nav {
-    width: 30rem;
+    /* width: 30rem; */
     height: 100%;
     padding: 3rem 0;
     background-color: wheat;
@@ -927,32 +927,41 @@ button:disabled {
     place-items: center;
 }
 
+.add-meal-page .image-displayer {
+    width: 50px;
+    height: 50px;
+}
+
+.add-meal-page .image-displayer img {
+    width: inherit;
+    height: inherit;
+}
+
+.add-meal-page table tr {
+    padding: 2rem;
+}
+
+.add-meal-page table td {
+    padding: 1rem;
+}
+
 .add-meal-page header {
     border-bottom: 4px solid #ff3c00;
 }
 
-.add-meal-page nav ul {
-    width: 100%;
-}
+.add-meal-page nav tr {
 
-.add-meal-page nav li {
-    list-style-type: none;
     padding: 1.5rem;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    text-decoration: underline;
     color: #333;
     border-bottom: 1px solid #555;
-    width: 80%;
+    /* width: 80%; */
     transition: 250ms;
-
-    display: flex;
-    place-content: space-between;
-    place-items: center;
 }
 
-.add-meal-page nav li:hover {
+.add-meal-page nav tr:hover {
     background-color: #fff1d7;
 }
 
@@ -1010,13 +1019,16 @@ button:disabled {
     place-items: start;
 }
 
-.add-meal-page form .flex-row {
+.add-meal-page form .flex-row,
+.flex-row-ingredient {
     display: flex;
     flex-direction: row;
     place-content: space-between;
     place-items: center;
+}
 
-    width: 100%;
+.flex-row-ingredient {
+    width: 30rem;
 }
 
 .add-meal-page .select {
@@ -1050,7 +1062,7 @@ button:disabled {
 }
 
 .add-meal-page form .ingredient-input {
-    width: 70%;
+    width: 20rem;
     border-radius: 1rem;
     padding: 5px 5px 5px 2rem;
 }

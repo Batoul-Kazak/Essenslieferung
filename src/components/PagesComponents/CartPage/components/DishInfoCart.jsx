@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function DishInfoCard({ recipesOrder, setRecipesOrder }) {
+export default function DishInfoCart({ recipesOrder, setRecipesOrder }) {
     const [isDelivered, setIsDelivered] = useState(false);
 
     const totalPrice_forRecipe = recipesOrder.map(recipe => Number(recipe.totalPrice));

@@ -7,7 +7,7 @@ export default function MenuPage({
     children,
     recipesOrder,
     setRecipesOrder,
-    handleGoToCardPage,
+    handleGoToCartPage,
     handleGoToAddMealPage
 }) {
     const [recipes, setRecipes] = useState([]);
@@ -43,7 +43,7 @@ export default function MenuPage({
         <section className="menu-page">
             {children}
             {!error && !isLoading && <Menu handleGoToAddMealPage={handleGoToAddMealPage}
-                handleGoToCardPage={handleGoToCardPage}>
+                handleGoToCartPage={handleGoToCartPage}>
                 {recipes.map(dish => <Dish key={dish.id}
                     recipe={dish}
                     recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
@@ -58,14 +58,14 @@ export default function MenuPage({
 function Menu({
     children,
     handleGoToAddMealPage,
-    handleGoToCardPage,
+    handleGoToCartPage,
     recipesOrder
 }) {
 
     return (
         <section className="main-menu">
             <p>All Recipes We have, <a href="#" onClick={handleGoToAddMealPage}>Click here to add your own meal</a> </p>
-            {!recipesOrder && <button className="order-button" onClick={handleGoToCardPage}>Go to Check and Buy Your Recipes</button>}
+            {!recipesOrder && <button className="order-button" onClick={handleGoToCartPage}>Go to Check and Buy Your Recipes</button>}
             <main>
                 {children}
             </main>

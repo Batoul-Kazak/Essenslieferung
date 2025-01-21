@@ -5,7 +5,7 @@ export default function MainMenu({
     recipe,
     recipesOrder,
     setRecipesOrder,
-    handleGoToCardPage
+    handleGoToCartPage
 }) {
     const localStorageData = []; // Array to store key-value pairs
 
@@ -27,7 +27,7 @@ export default function MainMenu({
                 copy from text in this project folder
                 } */}
                 </>}
-            {!recipesOrder.length && <button className="order-button" onClick={handleGoToCardPage}>Go to Check and Buy Your Recipes</button>}
+            {!recipesOrder.length && <button className="order-button" onClick={handleGoToCartPage}>Go to Check and Buy Your Recipes</button>}
         </section >
     );
 }

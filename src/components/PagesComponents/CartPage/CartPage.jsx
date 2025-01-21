@@ -1,4 +1,4 @@
-export default function CardPage({ children }) {
+export default function CartPage({ children }) {
     return (
         <section className="card-page">
             {children}

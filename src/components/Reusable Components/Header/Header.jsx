@@ -3,7 +3,7 @@
 export default function Header({
     children,
     openAccountPage,
-    openCardPage,
+    openCartPage,
     openAddMealPage,
     openHomePage,
     openMenuPage,
@@ -19,7 +19,7 @@ export default function Header({
             <ul className="links">
                 <li>
                     <a href="#" className={openHomePage ? "active-link" : ""} onClick={handleGoToHomePage}>home</a>
-                    {!openCardPage && <div className="line"></div>}
+                    {!openCartPage && <div className="line"></div>}
                 </li>
                 <li>
                     <a href="#" className={openMenuPage ? "active-link" : ""} onClick={handleGoToMenuPage}>menu</a>
