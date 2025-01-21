@@ -1,4 +1,5 @@
 import Warning from "../../Reusable Components/Warning";
+import Curtain from "../../Reusable Components/Curtain";
 import { useState } from "react";
 
 export default function AddMealPage({ children, specificMeals, setSpecificMeals }) {
@@ -10,35 +11,36 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
 
     if (sortedBy === "firstAdded") { sortedSpecificMeals = specificMeals; }
 
-    if (sortedBy === "makingTime") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.time - b.time)); }
+    if (sortedBy === "makingTime") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.time) - Number(b.time)); }
 
-    if (sortedBy === "price") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a - b); }
+    if (sortedBy === "price") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => Number(a.price) - Number(b.price)); }
 
-    if (sortedBy === "name") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a.localeStringCompare(b)) }
+    if (sortedBy === "name") { sortedSpecificMeals = specificMeals.slice().sort((a, b) => a.name.localeCompare(b.name)) }
 
-    function handleWarningAnswer(answer) {
-        setIsYes(answer);
-
-        if (isYes) {
-            setIsShowWarning(false);
-            setSpecificMeals([]);
-        }
-        else {
-            setIsShowWarning(false);
-        }
+    function handleWarningAnswerIfYes() {
+        setIsShowWarning(false);
+        setSpecificMeals([]);
         setIsYes(null);
     }
 
+    function handleWarningAnswerIfNo() {
+        setIsShowWarning(false);
+        setIsYes(null);
+    }
+
+
     function handleClearAllSpecificMeals() {
+        if (!specificMeals.length) {
+            alert("There is no items in the list");
+            return;
+        }
         setIsShowWarning(true);
         console.log(isShowWarning);
     }
 
     function handleDeleteSpecificMeal(name) {
-        setSpecificMeals(specificMeals => specificMeals.map(item => item.name !== name));
-        console.log(specificMeals)
+        setSpecificMeals(specificMeals => specificMeals.filter(item => item.name !== name));
     }
-
 
     return (
         <section className="add-meal-page">
@@ -46,9 +48,12 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
 
             <section className="flex">
                 <nav>
-                    <h2>Your Created Meals</h2>
+                    {specificMeals.length ? <> <h2>Your Created Meals</h2>
+                        <p>You have {sortedSpecificMeals.length} meals from your creation</p>
+                    </>
+                        : <p>No meals added</p>}
                     <ul>
-                        {sortedSpecificMeals.map(item => <Meal key={item.id} item={item}
+                        {sortedSpecificMeals.map(item => <Meal key={item.name} item={item}
                             handleDeleteSpecificMeal={handleDeleteSpecificMeal} />)}
                     </ul>
                     <div style={{ display: "flex", gap: "4rem" }}>
@@ -66,8 +71,9 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                     <NewMealInfo setSpecificMeals={setSpecificMeals} specificMeals={specificMeals} />
                 </main>
             </section>
-
-            {isShowWarning && <Warning onAnswer={handleWarningAnswer} message={warningMsg} />}
+            {isShowWarning && <Curtain />}
+            {isShowWarning && <Warning handleWarningAnswerIfNo={handleWarningAnswerIfNo}
+                handleWarningAnswerIfYes={handleWarningAnswerIfYes} message={warningMsg} />}
         </section>
     );
 }
@@ -113,10 +119,7 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
     function handleAddNewSpecificMeal(e) {
         e.preventDefault();
 
-        const id = ingredients.length;
-
         const newSpecificMeal = {
-            id: id,
             image: image,
             name: name,
             description: description,
@@ -126,30 +129,48 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
             price: price
         };
 
+        if (name === "") {
+            alert("You didn't enter the name of your meal");
+            return;
+        }
+
         const isExist = specificMeals.find(meal => meal.name === name);
-        if (!isExist)
-            setSpecificMeals(specificMeals => [...specificMeals, newSpecificMeal]);
+
+        if (isExist) { alert("You used this name before, try another one"); return; }
+
+        setSpecificMeals(specificMeals => [...specificMeals, newSpecificMeal]);
 
         console.log(specificMeals);
+        handleResetForm();
+    }
+
+    function handleResetForm() {
+        setName("");
+        setDate(currentDate);
+        setTime(currentTime);
+        setDescription("");
+        setIngredients([]);
+        setIngredientItem("");
+        setPrice(0);
     }
 
     function handleAddIngredient() {
         setPrice(price => price + 10);
 
-        // ingredients.forEach((i, item), function () {
-        //     if (item === ingredientItem) {
-        //         alert("Item already exists");
-        //         return;
-        //     }
-        // }
-        // );
+        const isExist = ingredients.find(item => item.name === name);
 
         if (ingredientItem === "") {
             alert("You didn't add any items");
             return;
         }
 
+        if (isExist) {
+            alert("Item already exists");
+            setName("");
+        }
+
         setIngredients(ingredients => [...ingredients, ingredientItem]);
+        setIngredientItem("")
     }
 
     function handleRemoveIngredient(item_) {
@@ -158,7 +179,7 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
     }
 
     return (
-        <form onSubmit={(e) => handleAddNewSpecificMeal(e)}>
+        <form>
             <section>
                 <div>
                     <label htmlFor="">Upload image</label>
@@ -193,12 +214,12 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
             </div>
             <div className="list">
                 <ol>
-                    {ingredients.map(item => <Ingredient key={item.id} name={item}
+                    {ingredients.map(item => <Ingredient key={item.name} name={item}
                         handleRemoveIngredient={handleRemoveIngredient} />)}
                 </ol>
             </div>
             <div className="flex-row">
-                <button>Order</button>
+                <button onClick={handleAddNewSpecificMeal}>Order</button>
                 {price > 0 && <div className="price-displayer">the price of your meal is {price}$</div>}
             </div>
         </form>

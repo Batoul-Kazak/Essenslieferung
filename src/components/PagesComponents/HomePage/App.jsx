@@ -94,7 +94,7 @@ export default function App() {
             document.title = `Tomato`;
         };
 
-    }, [openCardPage]);
+    }, [openCardPage, openAccountPage, openAddMealPage]);
 
 
 
