@@ -8,7 +8,8 @@ export default function MenuPage({
     recipesOrder,
     setRecipesOrder,
     setOpenAddMealPage,
-    setOpenMenuPage
+    setOpenMenuPage,
+    setOpenCardPage,
 }) {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +48,8 @@ export default function MenuPage({
     return (
         <section className="menu-page">
             {children}
-            {!error && !isLoading && <Menu handleGoToAddMealPage={handleGoToAddMealPage}>
+            {!error && !isLoading && <Menu handleGoToAddMealPage={handleGoToAddMealPage}
+                setOpenCardPage={setOpenCardPage}>
                 {recipes.map(dish => <Dish key={dish.id}
                     recipe={dish}
                     recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
@@ -59,11 +61,17 @@ export default function MenuPage({
     );
 }
 
-function Menu({ children, handleGoToAddMealPage }) {
+function Menu({
+    children,
+    handleGoToAddMealPage,
+    setOpenCardPage,
+    recipesOrder
+}) {
 
     return (
         <section className="main-menu">
             <p>All Recipes We have, <a href="#" onClick={handleGoToAddMealPage}>Click here to add your own meal</a> </p>
+            <button className="order-button" onClick={() => setOpenCardPage(true)}>Go to Check and Buy Your Recipes</button>
             <main>
                 {children}
             </main>

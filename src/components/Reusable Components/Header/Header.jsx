@@ -2,49 +2,16 @@
 
 export default function Header({
     children,
-    setOpenCardPage,
     openAccountPage,
-    setOpenAccountPage,
     openCardPage,
     openAddMealPage,
-    setOpenAddMealPage,
     openHomePage,
-    setOpenHomePage,
     openMenuPage,
-    setOpenMenuPage
+    handleGoToHomePage,
+    handleGoToAddMealPage,
+    handleGoToMenuPage,
+    handleGoToUserAccountPage
 }) {
-
-    function handleGoToHomePage() {
-        setOpenHomePage(true);
-        setOpenCardPage(false);
-        setOpenAccountPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(false);
-    }
-
-    function handleGoToUserAccountPage() {
-        setOpenHomePage(false);
-        setOpenAccountPage(true);
-        setOpenCardPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(false);
-    }
-
-    function handleGoToAddMealPage() {
-        setOpenHomePage(false);
-        setOpenCardPage(false);
-        setOpenAccountPage(false);
-        setOpenAddMealPage(true);
-        setOpenMenuPage(false);
-    }
-
-    function handleGoToMenuPage() {
-        setOpenHomePage(false);
-        setOpenAccountPage(false);
-        setOpenCardPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(true);
-    }
 
     return (
         <header>

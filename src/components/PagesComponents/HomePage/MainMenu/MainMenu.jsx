@@ -20,11 +20,13 @@ export default function MainMenu({
                                 recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
                             />)
                         }
+
                     </main>
                     {/* {
                 copy from text in this project folder
-              } */}
+                } */}
                 </>}
+            <button className="order-button">Go to Check and Buy Your Recipes</button>
         </section >
     );
 }

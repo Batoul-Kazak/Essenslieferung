@@ -6,6 +6,8 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
     const [sortedBy, setSortedBy] = useState("firstAdded");
     const [isShowWarning, setIsShowWarning] = useState(false);
     const [isYes, setIsYes] = useState(null);
+    const [isForCompany, setIsForCompany] = useState(false);
+    const [mealsQuantity, setMealsQuantity] = useState(1);
     const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all specific meals";
     let sortedSpecificMeals = [];
 
@@ -54,7 +56,8 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                         : <p>No meals added</p>}
                     <ul>
                         {sortedSpecificMeals.map(item => <Meal key={item.name} item={item}
-                            handleDeleteSpecificMeal={handleDeleteSpecificMeal} />)}
+                            handleDeleteSpecificMeal={handleDeleteSpecificMeal}
+                        />)}
                     </ul>
                     <div style={{ display: "flex", gap: "4rem" }}>
                         <button onClick={handleClearAllSpecificMeals}>Clear All</button>
@@ -68,7 +71,10 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                 </nav>
 
                 <main>
-                    <NewMealInfo setSpecificMeals={setSpecificMeals} specificMeals={specificMeals} />
+                    <NewMealInfo setSpecificMeals={setSpecificMeals} specificMeals={specificMeals}
+                        isForCompany={isForCompany} setIsForCompany={setIsForCompany}
+                        mealsQuantity={mealsQuantity} setMealsQuantity={setMealsQuantity}
+                    />
                 </main>
             </section>
             {isShowWarning && <Curtain />}
@@ -89,13 +95,21 @@ function Meal({ item, handleDeleteSpecificMeal }) {
             <div>{item.name}</div>
             <div>{item.time}</div>
             <div>{item.date}</div>
+            {isForCompany && <div>Your meal is sent to manager</div>}
             {/* <div>{item.description}</div> */}
             <button onClick={() => handleDeleteSpecificMeal(item.name)}>×</button>
         </li>
     );
 }
 
-function NewMealInfo({ setSpecificMeals, specificMeals }) {
+function NewMealInfo({
+    setSpecificMeals,
+    specificMeals,
+    isForCompany,
+    setIsForCompany,
+    mealsQuantity,
+    setMealsQuantity
+}) {
     const now = new Date();
     // const year = now.getFullYear();
     // const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
@@ -126,7 +140,9 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
             time: time,
             date: date,
             ingredients: ingredients,
-            price: price
+            price: price,
+            isForCompany: isForCompany,
+            quantity: mealsQuantity
         };
 
         if (name === "") {
@@ -185,9 +201,15 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
                     <label htmlFor="">Upload image</label>
                     <input type="image" src={image} onChange={(e) => setImage(e.target.src)} />
                 </div>
-                <div>
-                    <label htmlFor="">Product name</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                <div className="flex-col">
+                    <div>
+                        <label htmlFor="">Product name</label>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                    </div>
+                    <div className="flex-row">
+                        <input type="checkbox" value={isForCompany} onChange={(e) => setIsForCompany(e.target.value)} />
+                        <label htmlFor="">Do you want to upload your meal on our website?</label>
+                    </div>
                 </div>
             </section>
             <div>
@@ -205,6 +227,11 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
                     <input type="date" name="" id="" min={currentDate}
                         value={date} onChange={(e) => setDate(e.target.value)} />
                 </div>
+                <div className="quantity">
+                    <label htmlFor="">{isForCompany ? "Add quantity of meals you want to sold" : "Enter quantity of this meal you want to order"}</label>
+                    <input type="number" style={{ width: "4rem" }}
+                        value={mealsQuantity} onChange={(e) => setMealsQuantity(e.target.value)} />
+                </div>
             </div>
             <div className="flex-row">
                 <input type="text" className="ingredient-input" placeholder="Add ingredient"
@@ -219,8 +246,10 @@ function NewMealInfo({ setSpecificMeals, specificMeals }) {
                 </ol>
             </div>
             <div className="flex-row">
-                <button onClick={handleAddNewSpecificMeal}>Order</button>
-                {price > 0 && <div className="price-displayer">the price of your meal is {price}$</div>}
+                <button onClick={handleAddNewSpecificMeal}>{isForCompany ? "Upload Meal" : "Order"}</button>
+                {price > 0 && <div className="price-displayer">{!isForCompany ? `the price of your meal is ${price}` :
+                    `you need to pay ${price / 2} for each meal of this type and you will earn ${(price / 2)}`
+                }</div>}
             </div>
         </form>
     );
