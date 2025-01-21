@@ -7,7 +7,7 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
     const [typeOfSorting, setTypeOfSorting] = useState("ascending");
     const [isShowWarning, setIsShowWarning] = useState(false);
     const [isYes, setIsYes] = useState(null);
-    const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all specific meals";
+    const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all meals you created?";
     let sortedSpecificMeals = [];
 
     if (typeOfSorting === "ascending") {

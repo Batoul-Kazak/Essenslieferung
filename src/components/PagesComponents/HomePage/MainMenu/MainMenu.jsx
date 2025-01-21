@@ -5,7 +5,7 @@ export default function MainMenu({
     recipe,
     recipesOrder,
     setRecipesOrder,
-    handleGoToCartPage
+    handleGoToCartPage,
 }) {
     const localStorageData = []; // Array to store key-value pairs
 

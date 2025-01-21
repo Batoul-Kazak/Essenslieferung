@@ -1,24 +1,11 @@
 import { useEffect, useState } from "react"
 import Header from "./../../Reusable Components/Header/Header"
-import HeroSection from "./HeroSection/HeroSection"
-import ExploreMenu from "./ExploreMenu/ExploreMenu"
-import MainMenu from "./MainMenu/MainMenu"
-import AdvertisementSection from "./AdvertisementSection/AdvertisementSection"
-import Footer from "./Footer/Footer"
-import SignUp from "./../../Reusable Components/Header/components/SignUp"
-import Login from "./../../Reusable Components/Header/components/Login"
-
 import CartPage from "./../CartPage/CartPage"
 import DishInfoCart from "./../CartPage/components/DishInfoCart"
-import Curtain from "./../../Reusable Components/Curtain"
 import UserAccountInfo from "./../UserAccountInfoPage/UserAccountInfoPage"
 import AddMealPage from "./../AddMealPage/AddMealPage"
-
 import MenuPage from "./../MenuPage/MenuPage"
-
-import Loader from "./../../Reusable Components/Loader"
-import ErrorMessage from "./../../Reusable Components/ErrorMessage"
-// import { DISHES, SIGNED_UP_USERS } from "./constants"
+import HomePage from "./HomePage"
 
 export default function App() {
     const [query, setQuery] = useState("");
@@ -136,8 +123,6 @@ export default function App() {
 
     }, [openCartPage, openAccountPage, openAddMealPage]);
 
-
-
     return (
         <div className="app">
             {openMenuPage && <MenuPage recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
@@ -189,7 +174,10 @@ export default function App() {
             </AddMealPage>}
             {
                 openHomePage &&
-                <>
+                <HomePage openedPopup={openedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
+                    error={error} recipe={recipe} setOpenCartPage={setOpenCartPage} recipesOrder={recipesOrder}
+                    setRecipesOrder={setRecipesOrder} handleGoToCartPage={handleGoToCartPage}
+                >
                     <Header setOpenCartPage={setOpenCartPage} setOpenAccountPage={setOpenAccountPage}
                         openCartPage={openCartPage} openAccountPage={openAccountPage}
                         openAddMealPage={openAddMealPage}
@@ -200,32 +188,8 @@ export default function App() {
                         <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
                         <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
                     </Header>
-                    {openedPopup === "signup" ?
-                        <>
-                            <SignUp users={users} setUsers={setUsers} setOpenedPopup={setOpenedPopup} />
-                            <Curtain />
-                        </>
-                        : openedPopup === "login" ?
-                            <>
-                                <Login setOpenedPopup={setOpenedPopup} />
-                                <Curtain />
-                            </>
-                            : ""}
-                    <HeroSection />
-                    <ExploreMenu query={query} setQuery={setQuery} />
-                    {isLoading && <Loader />}
-                    {!isLoading && !error && <MainMenu recipe={recipe}
-                        setQuery={setQuery} setOpenCartPage={setOpenCartPage}
-                        recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
-                        handleGoToCartPage={handleGoToCartPage}
-                    />}
-                    {error && <ErrorMessage message={error} />}
-                    <AdvertisementSection />
-                    <Footer />
-                </>}
+                </HomePage>
+            }
         </div>
     )
 }
-
-
-

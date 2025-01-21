@@ -554,7 +554,8 @@ form.register-info section button:hover {
 .card-page,
 .user-account-info-page,
 .add-meal-page,
-.menu-page {
+.menu-page,
+.home-page {
     position: absolute;
     inset: 0 0 auto 0;
     width: 100%;
@@ -567,9 +568,14 @@ form.register-info section button:hover {
 
 .user-account-info-page header,
 .add-meal-page header,
-.menu-page header {
+.menu-page header,
+.home-page .hero-section,
+.explore-menu,
+.main-menu,
+.home-page header {
     place-self: center;
 }
+
 
 .card-page>div {
     position: relative;
@@ -1160,6 +1166,8 @@ button:disabled {
     z-index: 15;
     padding: 15px;
     padding-bottom: 0;
+
+    width: 30rem;
 }
 
 .curtain {
