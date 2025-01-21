@@ -70,6 +70,14 @@ export default function App() {
         setOpenMenuPage(true);
     }
 
+    function handleGoToCardPage() {
+        setOpenCardPage(true);
+        setOpenHomePage(false);
+        setOpenAccountPage(false);
+        setOpenAddMealPage(false);
+        setOpenMenuPage(false);
+    }
+
     useEffect(function () {
         const controller = new AbortController();
         async function fetchRecipes() {
@@ -134,23 +142,24 @@ export default function App() {
         <div className="app">
             {openMenuPage && <MenuPage recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
                 setOpenAddMealPage={setOpenAddMealPage} setOpenMenuPage={setOpenMenuPage}
-                setOpenCardPage={setOpenCardPage}
+                handleGoToCardPage={handleGoToCardPage}
+                handleGoToAddMealPage={handleGoToAddMealPage}
             >
                 <Header openCardPage={openCardPage}
-                    openAccountPage={openAccountPage} handleGoToUserAccountPage={handleGoToUserAccountPage}
-                    openAddMealPage={openAddMealPage} handleGoToAddMealPage={handleGoToAddMealPage}
-                    openHomePage={openHomePage} handleGoToHomePage={handleGoToHomePage}
-                    openMenuPage={openMenuPage} handleGoToMenuPage={handleGoToMenuPage}
+                    openAccountPage={openAccountPage} openAddMealPage={openAddMealPage}
+                    openHomePage={openHomePage} openMenuPage={openMenuPage}
+                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
+                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
             </MenuPage>}
             {openCardPage && <CardPage setOpenCardPage={setOpenCardPage}>
                 <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
-                    setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
-                    openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
-                    openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
-                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
+                    openAccountPage={openAccountPage}
+                    openAddMealPage={openAddMealPage} openHomePage={openHomePage} openMenuPage={openMenuPage}
+                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
+                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
@@ -159,10 +168,10 @@ export default function App() {
                 />
             </CardPage>} {openAccountPage && <UserAccountInfo>
                 <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
-                    setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
-                    openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
-                    openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
-                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
+                    openAccountPage={openAccountPage}
+                    openAddMealPage={openAddMealPage} openHomePage={openHomePage} openMenuPage={openMenuPage}
+                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
+                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
@@ -170,12 +179,10 @@ export default function App() {
             }
             {openAddMealPage && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
                 <Header setOpenCardPage={setOpenCardPage} openCardPage={openCardPage}
-                    setOpenAccountPage={setOpenAccountPage} openAccountPage={openAccountPage}
-                    openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
-                    openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
-                    openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
-
-
+                    openAccountPage={openAccountPage}
+                    openAddMealPage={openAddMealPage} openHomePage={openHomePage} openMenuPage={openMenuPage}
+                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
+                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
                 >
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                 </Header>
@@ -185,9 +192,10 @@ export default function App() {
                 <>
                     <Header setOpenCardPage={setOpenCardPage} setOpenAccountPage={setOpenAccountPage}
                         openCardPage={openCardPage} openAccountPage={openAccountPage}
-                        openAddMealPage={openAddMealPage} setOpenAddMealPage={setOpenAddMealPage}
-                        openHomePage={openHomePage} setOpenHomePage={setOpenHomePage}
-                        openMenuPage={openMenuPage} setOpenMenuPage={setOpenMenuPage}
+                        openAddMealPage={openAddMealPage}
+                        openHomePage={openHomePage} openMenuPage={openMenuPage}
+                        handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
+                        handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
                     >
                         <li><div className="basket-icon" role="button" onClick={() => setOpenCardPage(openCardPage => !openCardPage)}></div></li>
                         <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
@@ -209,6 +217,7 @@ export default function App() {
                     {!isLoading && !error && <MainMenu recipe={recipe}
                         setQuery={setQuery} setOpenCardPage={setOpenCardPage}
                         recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
+                        handleGoToCardPage={handleGoToCardPage}
                     />}
                     {error && <ErrorMessage message={error} />}
                     <AdvertisementSection />

@@ -7,18 +7,12 @@ export default function MenuPage({
     children,
     recipesOrder,
     setRecipesOrder,
-    setOpenAddMealPage,
-    setOpenMenuPage,
-    setOpenCardPage,
+    handleGoToCardPage,
+    handleGoToAddMealPage
 }) {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-
-    function handleGoToAddMealPage() {
-        setOpenAddMealPage(true);
-        setOpenMenuPage(false);
-    }
 
     useEffect(function () {
         async function fetchMenu() {
@@ -49,7 +43,7 @@ export default function MenuPage({
         <section className="menu-page">
             {children}
             {!error && !isLoading && <Menu handleGoToAddMealPage={handleGoToAddMealPage}
-                setOpenCardPage={setOpenCardPage}>
+                handleGoToCardPage={handleGoToCardPage}>
                 {recipes.map(dish => <Dish key={dish.id}
                     recipe={dish}
                     recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
@@ -64,14 +58,14 @@ export default function MenuPage({
 function Menu({
     children,
     handleGoToAddMealPage,
-    setOpenCardPage,
+    handleGoToCardPage,
     recipesOrder
 }) {
 
     return (
         <section className="main-menu">
             <p>All Recipes We have, <a href="#" onClick={handleGoToAddMealPage}>Click here to add your own meal</a> </p>
-            <button className="order-button" onClick={() => setOpenCardPage(true)}>Go to Check and Buy Your Recipes</button>
+            {!recipesOrder && <button className="order-button" onClick={handleGoToCardPage}>Go to Check and Buy Your Recipes</button>}
             <main>
                 {children}
             </main>
