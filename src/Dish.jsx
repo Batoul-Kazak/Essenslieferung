@@ -2,7 +2,7 @@ import AddingControl from "./AddingControl";
 import ControlledStarRating from "./ControlledStarRating"
 import UncontrolledStarRating from "./UncontrolledStarRating"
 import TextExpander from "./TextExpander"
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
     const [isClicked, setIsClicked] = useState(false);
@@ -12,6 +12,7 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
     const [userRating, setUserRating] = useState(0);
     const [isShowText, setIsShowText] = useState(false);
     const [canOrder, setCanOrder] = useState(false);
+    const countRating = useRef(0);
 
     const ratingMessages = [
         { msg: "Terrible", color: "red" },
@@ -73,6 +74,7 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
             totalTime: totalTimeNeeded,
             quantity: dishAmount,
             totalPrice: totalPrice,
+            decisionRatingCount: countRating.current
         };
 
         console.log(newRecipe);
@@ -96,6 +98,11 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
         setIsClicked(true);
         handleAddRecipe();
     }
+
+    useEffect(function () {
+        if (userRating)
+            countRating.current++;
+    }, [userRating])
 
     return (
         <section className="dish">
