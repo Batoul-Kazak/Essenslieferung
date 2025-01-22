@@ -72,6 +72,8 @@ export default function App() {
             document.title = `Tomato | Account`;
         if (openAddMealPage)
             document.title = `Tomato | Create Meal`;
+        if (openMenuPage)
+            document.title = `Tomato | Menu`;
 
         return function () {
             document.title = `Tomato`;

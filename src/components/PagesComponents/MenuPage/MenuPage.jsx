@@ -12,34 +12,6 @@ export default function MenuPage({
     handleGoToAddMealPage
 }) {
     const { recipe, isLoading, error } = useFetchingMeals(false);
-    // const [recipes, setRecipes] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
-    // const [error, setError] = useState("");
-
-    // useEffect(function () {
-    //     async function fetchMenu() {
-    //         try {
-    //             setIsLoading(true);
-    //             setError("");
-    //             const res = await fetch("https://dummyjson.com/recipes");
-    //             if (!res.ok) throw new Error("Couldn't fetch recipe");
-
-    //             const data = await res.json();
-    //             if (data.total === 0)
-    //                 throw new Error("There is no items matches your search");
-
-    //             setRecipes(data.recipes);
-    //             setError("");
-    //         } catch (err) {
-    //             setError(err.message);
-    //             console.log(err.message)
-    //         } finally {
-    //             setIsLoading(false);
-    //         }
-    //     }
-
-    //     fetchMenu();
-    // }, []);
 
     return (
         <section className="menu-page">
