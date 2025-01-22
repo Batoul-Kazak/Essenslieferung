@@ -62,13 +62,6 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
 
     let totalTimeNeeded = prepTimeMinutes + cookTimeMinutes;
 
-    useEffect(function () {
-        if (userRating) {
-            ratedTimes.current++;
-            console.log("must increase");
-        }
-    }, [userRating]);
-
     function handleAddRecipe() {
 
         const newRecipe = {
@@ -107,7 +100,7 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
 
     useEffect(function () {
         if (userRating)
-            countRating.current++;
+            ratedTimes.current++;
     }, [userRating])
 
     return (

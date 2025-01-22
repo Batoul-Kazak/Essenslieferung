@@ -179,6 +179,11 @@ function NewMealInfo({
             return;
         }
 
+        if (mealsQuantity == 0) {
+            alert("you didn't add any ingredient");
+            return;
+        }
+
         const isExist = specificMeals.find(meal => meal.name === name);
 
         if (isExist) { alert("You used this name before, try another one"); return; }
