@@ -6,9 +6,12 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
     const [sortedBy, setSortedBy] = useState("timeAdded");
     const [typeOfSorting, setTypeOfSorting] = useState("ascending");
     const [isShowWarning, setIsShowWarning] = useState(false);
-    const [isYes, setIsYes] = useState(null);
+    const [isYes, setIsYes] = useState(false);
+    const [displayTotalMealsPrice, setDisplayTotalMealsPrice] = useState(false);
     const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all meals you created?";
     let sortedSpecificMeals = [];
+    let specificMealsPriceArr = specificMeals.map(meal => Number(meal.price));
+    let specificMealsTotalPrice = specificMealsPriceArr.reduce((a, b) => a + b, 0);
 
     if (typeOfSorting === "ascending") {
         if (sortedBy === "timeAdded") { sortedSpecificMeals = specificMeals; }
@@ -29,14 +32,13 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
     function handleWarningAnswerIfYes() {
         setIsShowWarning(false);
         setSpecificMeals([]);
-        setIsYes(null);
+        setIsYes(false);
     }
 
     function handleWarningAnswerIfNo() {
         setIsShowWarning(false);
-        setIsYes(null);
+        setIsYes(false);
     }
-
 
     function handleClearAllSpecificMeals() {
         if (!specificMeals.length) {
@@ -75,7 +77,7 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                             handleDeleteSpecificMeal={handleDeleteSpecificMeal}
                         />)}
                     </table>
-                    <div style={{ display: "flex", gap: "1rem" }}>
+                    <div className="control-container">
                         <button onClick={handleClearAllSpecificMeals}>Clear All</button>
                         <select value={sortedBy} onChange={(e) => setSortedBy(e.target.value)}>
                             <option value="makingTime">sort by making time</option>
@@ -88,7 +90,9 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
                             <option value="ascending">Ascending</option>
                             <option value="descending">Descending</option>
                         </select>
+                        <button onClick={() => setDisplayTotalMealsPrice(!displayTotalMealsPrice)}>{!displayTotalMealsPrice ? "total price" : "hide total price"}</button>
                     </div>
+                    {displayTotalMealsPrice && <p>The total price of meals you created is {specificMealsTotalPrice}$</p>}
                 </nav>
 
                 <main>
@@ -98,6 +102,7 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
             </section>
             {isShowWarning && <Curtain />}
             {isShowWarning && <Warning handleWarningAnswerIfNo={handleWarningAnswerIfNo}
+                defaultSelectedOption={isYes}
                 handleWarningAnswerIfYes={handleWarningAnswerIfYes} message={warningMsg} />}
         </section>
     );

@@ -967,12 +967,23 @@ button:disabled {
     transition: 250ms;
 }
 
-.add-meal-page nav tr:hover {
+.add-meal-page nav tr:not(:first-child):hover {
     background-color: #fff1d7;
 }
 
+.add-meal-page nav tr td:is(:last-child) button {
+    font-size: 1.6rem;
+    font-weight: lighter;
+    color: #333;
+}
+
+.add-meal-page nav tr:is(:first-child) {
+    cursor: default;
+    color: #111;
+}
+
 .add-meal-page nav .image-place {
-    width: 2rem;
+    width: 3.5rem;
     aspect-ratio: 1;
     background-color: #3333337a;
 }
@@ -1159,13 +1170,12 @@ button:disabled {
     border-radius: 1rem;
     overflow: hidden;
 
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 15;
-    padding: 15px;
-    padding-bottom: 0;
+    padding: 2rem;
 
     width: 30rem;
 }
@@ -1195,6 +1205,22 @@ button:disabled {
 .warning button {
     background-color: inherit;
     border: none;
+    transition: 250ms;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.warning .selected {
+    background-color: #333;
+    color: white;
+}
+
+.warning button:hover {
+    background-color: #888;
+}
+
+.warning .buttons-container {
+    padding-top: 1rem;
 }
 
 .warning :nth-child(2) {
@@ -1248,4 +1274,17 @@ button:disabled {
 
 .order-button:hover {
     box-shadow: 8px 8px 8px #777;
+}
+
+.control-container {
+    padding-top: 3rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.control-container button {
+    background-color: #ff3c00 !important;
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
 }
