@@ -2,7 +2,7 @@ import AddingControl from "./AddingControl";
 import ControlledStarRating from "./ControlledStarRating"
 import UncontrolledStarRating from "./UncontrolledStarRating"
 import TextExpander from "./TextExpander"
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
     const [isClicked, setIsClicked] = useState(false);
@@ -12,6 +12,7 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
     const [userRating, setUserRating] = useState(0);
     const [isShowText, setIsShowText] = useState(false);
     const [canOrder, setCanOrder] = useState(false);
+    const ratedTimes = useRef(0);
 
     const ratingMessages = [
         { msg: "Terrible", color: "red" },
@@ -32,8 +33,6 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
     }
 
     document.addEventListener("keydown", handleCloseDishDetails);
-
-
     const {
         cookTimeMinutes,
         cuisine,
@@ -63,6 +62,13 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
 
     let totalTimeNeeded = prepTimeMinutes + cookTimeMinutes;
 
+    useEffect(function () {
+        if (userRating) {
+            ratedTimes.current++;
+            console.log("must increase");
+        }
+    }, [userRating]);
+
     function handleAddRecipe() {
 
         const newRecipe = {
@@ -73,13 +79,14 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
             totalTime: totalTimeNeeded,
             quantity: dishAmount,
             totalPrice: totalPrice,
+            decisionRatingCount: ratedTimes.current
         };
 
         console.log(newRecipe);
 
         const isExistInRecipesOrder = recipesOrder.map(item => item.id).includes(id);
-
         //adding recipe only if it doesn't exists
+
         if (!isExistInRecipesOrder) {
             setRecipesOrder(recipesOrder => [...recipesOrder, newRecipe]);
         }
@@ -90,12 +97,18 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
             ));
 
         console.log(recipesOrder);
+
     }
 
     function handleAddInFirstTime() {
         setIsClicked(true);
         handleAddRecipe();
     }
+
+    useEffect(function () {
+        if (userRating)
+            countRating.current++;
+    }, [userRating])
 
     return (
         <section className="dish">
