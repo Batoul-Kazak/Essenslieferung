@@ -6,23 +6,21 @@ export default function Login({
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [email_msg, setEmail_msg] = useState([]);
     const [password_msg, setPassword_msg] = useState([]);
-
-
     const [loginTrial, setLoginTrial] = useState(0);
 
     function handleResult(e) {
         e.preventDefault();
 
         let users = localStorage.getItem("users");
-        alert("users type: " + typeof users);
+        // alert("users type: " + typeof users);
 
         let isCorrect = users.find(user => user.email == email && user.password == password);
-
+        //only one user will be active: true
         if (isCorrect)
-            alert("Added Successfully");
+            alert("Login Successfully");
+
         else {
             if (loginTrial == 3) {
                 //note: later i'll store the value in local storage so when user refresh the page 

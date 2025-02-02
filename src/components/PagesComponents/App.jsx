@@ -8,6 +8,18 @@ import MenuPage from "./MenuPage/MenuPage"
 import HomePage from "./HomePage/HomePage"
 import { useFetchingMeals } from "../../functions/useFetchingMeals"
 
+const initialState = {
+    users: [],
+    recipesOrder: [],
+    specificMeals: []
+}
+
+function reducer(state, action) {
+    switch (action.type) {
+        // case ""
+    }
+}
+
 export default function App() {
     const [query, setQuery] = useState("");
     const [recipesOrder, setRecipesOrder] = useState([]);
