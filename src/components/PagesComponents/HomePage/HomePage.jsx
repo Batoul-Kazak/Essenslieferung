@@ -17,10 +17,10 @@ export default function HomePage({
     isLoading,
     error,
     recipe,
-    setOpenCartPage,
     recipesOrder,
     setRecipesOrder,
-    handleGoToCartPage
+    setOpenedPopup,
+    setOpenedPage
 }) {
     return (
         <section className="home-page">
@@ -40,9 +40,8 @@ export default function HomePage({
             <ExploreMenu query={query} setQuery={setQuery} />
             {isLoading && <Loader />}
             {!isLoading && !error && <MainMenu recipe={recipe}
-                setQuery={setQuery} setOpenCartPage={setOpenCartPage}
-                recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
-                handleGoToCartPage={handleGoToCartPage}
+                setQuery={setQuery} recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
+                setOpenedPage={setOpenedPage}
             />}
             {error && <ErrorMessage message={error} />}
             <AdvertisementSection />

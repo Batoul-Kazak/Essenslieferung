@@ -12,138 +12,74 @@ export default function App() {
     const [query, setQuery] = useState("");
     const [recipesOrder, setRecipesOrder] = useState([]);
 
-    const [openedPopup, setOpenedPopup] = useState("none");
     const [users, setUsers] = useState([]);
 
-    const [openAccountPage, setOpenAccountPage] = useState(false);
-    const [openCartPage, setOpenCartPage] = useState(false);
-    const [openAddMealPage, setOpenAddMealPage] = useState(false);
-    const [openHomePage, setOpenHomePage] = useState(true);
-    const [openMenuPage, setOpenMenuPage] = useState(false);
+    const [openedPopup, setOpenedPopup] = useState("none");
+    const [openedPage, setOpenedPage] = useState("home");
 
     const [specificMeals, setSpecificMeals] = useState([]);
 
     const { recipe, isLoading, error } = useFetchingMeals(true, query);
 
-    function handleGoToHomePage() {
-        setOpenHomePage(true);
-        setOpenCartPage(false);
-        setOpenAccountPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(false);
-    }
-
-    function handleGoToUserAccountPage() {
-        setOpenHomePage(false);
-        setOpenAccountPage(true);
-        setOpenCartPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(false);
-    }
-
-    function handleGoToAddMealPage() {
-        setOpenHomePage(false);
-        setOpenCartPage(false);
-        setOpenAccountPage(false);
-        setOpenAddMealPage(true);
-        setOpenMenuPage(false);
-    }
-
-    function handleGoToMenuPage() {
-        setOpenHomePage(false);
-        setOpenAccountPage(false);
-        setOpenCartPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(true);
-    }
-
-    function handleGoToCartPage() {
-        setOpenCartPage(true);
-        setOpenHomePage(false);
-        setOpenAccountPage(false);
-        setOpenAddMealPage(false);
-        setOpenMenuPage(false);
-    }
-
     useEffect(function () {
-        if (openCartPage)
-            document.title = `Tomato | Bill`;
-        if (openAccountPage)
-            document.title = `Tomato | Account`;
-        if (openAddMealPage)
-            document.title = `Tomato | Create Meal`;
-        if (openMenuPage)
-            document.title = `Tomato | Menu`;
+        switch (openedPage) {
+            case "cart": document.title = `Tomato | Bill`; break;
+            case "account": document.title = `Tomato | Account`; break;
+            case "meal": document.title = `Tomato | Create Meal`; break;
+            case "menu": document.title = `Tomato | Menu`; break;
+            case "contact": document.title = `Tomato | Contact`; break;
+        }
 
         return function () {
             document.title = `Tomato`;
         };
 
-    }, [openCartPage, openAccountPage, openAddMealPage]);
+    }, [openedPage]);
 
     return (
         <div className="app">
-            {openMenuPage && <MenuPage recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
-                setOpenAddMealPage={setOpenAddMealPage} setOpenMenuPage={setOpenMenuPage}
-                handleGoToCartPage={handleGoToCartPage}
-                handleGoToAddMealPage={handleGoToAddMealPage}
+            {openedPage === "menu" && <MenuPage recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
+                setOpenedPage={setOpenedPage}
             >
-                <Header openCartPage={openCartPage}
-                    openAccountPage={openAccountPage} openAddMealPage={openAddMealPage}
-                    openHomePage={openHomePage} openMenuPage={openMenuPage}
-                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
-                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
-                >
+                <Header setOpenedPage={setOpenedPage} openedPage={openedPage}>
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
                 </Header>
             </MenuPage>}
-            {openCartPage && <CartPage setOpenCartPage={setOpenCartPage}>
-                <Header setOpenCartPage={setOpenCartPage} openCartPage={openCartPage}
-                    openAccountPage={openAccountPage}
-                    openAddMealPage={openAddMealPage} openHomePage={openHomePage} openMenuPage={openMenuPage}
-                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
-                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
-                >
+
+            {openedPage === "cart" && <CartPage>
+                <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
                 </Header>
                 <DishInfoCart recipesOrder={recipesOrder}
                     setRecipesOrder={setRecipesOrder}
                 />
-            </CartPage>} {openAccountPage && <UserAccountInfo>
-                <Header setOpenCartPage={setOpenCartPage} openCartPage={openCartPage}
-                    openAccountPage={openAccountPage}
-                    openAddMealPage={openAddMealPage} openHomePage={openHomePage} openMenuPage={openMenuPage}
-                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
-                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
-                >
-                    <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
+            </CartPage>}
+
+            {openedPage === "account" && <UserAccountInfo>
+                <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
+                    <li><div className="basket-icon" role="button" onClick={() =>
+                        setOpenedPage(openedPage => openedPage === "account" ? "cart" : "account")}></div></li>
                 </Header>
             </UserAccountInfo>
             }
-            {openAddMealPage && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
-                <Header setOpenCartPage={setOpenCartPage} openCartPage={openCartPage}
-                    openAccountPage={openAccountPage}
-                    openAddMealPage={openAddMealPage} openHomePage={openHomePage} openMenuPage={openMenuPage}
-                    handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
-                    handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
-                >
-                    <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
+
+            {openedPage === "meal" && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
+                <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
+                    <li><div className="basket-icon" role="button" onClick={() =>
+                        setOpenedPage(openedPage => openedPage === "meal" ? "cart" : "meal")
+                    }></div></li>
                 </Header>
             </AddMealPage>}
-            {
-                openHomePage &&
-                <HomePage openedPopup={openedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
-                    error={error} recipe={recipe} setOpenCartPage={setOpenCartPage} recipesOrder={recipesOrder}
-                    setRecipesOrder={setRecipesOrder} handleGoToCartPage={handleGoToCartPage}
+
+            {openedPage === "home" &&
+                <HomePage openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
+                    error={error} recipe={recipe} recipesOrder={recipesOrder}
+                    setRecipesOrder={setRecipesOrder} setOpenedPage={setOpenedPage}
                 >
-                    <Header setOpenCartPage={setOpenCartPage} setOpenAccountPage={setOpenAccountPage}
-                        openCartPage={openCartPage} openAccountPage={openAccountPage}
-                        openAddMealPage={openAddMealPage}
-                        openHomePage={openHomePage} openMenuPage={openMenuPage}
-                        handleGoToUserAccountPage={handleGoToUserAccountPage} handleGoToHomePage={handleGoToHomePage}
-                        handleGoToAddMealPage={handleGoToAddMealPage} handleGoToMenuPage={handleGoToMenuPage}
-                    >
-                        <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
+                    <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
+                        <li><div className="basket-icon" role="button" onClick={() =>
+                            setOpenedPage(openedPage => openedPage === "home" ? "cart" : "home")
+                        }></div></li>
                         <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
                     </Header>
                 </HomePage>

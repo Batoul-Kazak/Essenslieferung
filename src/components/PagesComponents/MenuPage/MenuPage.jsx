@@ -8,16 +8,14 @@ export default function MenuPage({
     children,
     recipesOrder,
     setRecipesOrder,
-    handleGoToCartPage,
-    handleGoToAddMealPage
+    setOpenedPage
 }) {
     const { recipe, isLoading, error } = useFetchingMeals(false);
 
     return (
         <section className="menu-page">
             {children}
-            {!error && !isLoading && <Menu handleGoToAddMealPage={handleGoToAddMealPage}
-                handleGoToCartPage={handleGoToCartPage}>
+            {!error && !isLoading && <Menu setOpenedPage={setOpenedPage}>
                 {recipe.map(dish => <Dish key={dish.id}
                     recipe={dish}
                     recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
@@ -31,15 +29,14 @@ export default function MenuPage({
 
 function Menu({
     children,
-    handleGoToAddMealPage,
-    handleGoToCartPage,
-    recipesOrder
+    recipesOrder,
+    setOpenedPage
 }) {
 
     return (
         <section className="main-menu">
-            <p>All Recipes We have, <a href="#" onClick={handleGoToAddMealPage}>Click here to add your own meal</a> </p>
-            {!recipesOrder && <button className="order-button" onClick={handleGoToCartPage}>Go to Check and Buy Your Recipes</button>}
+            <p>All Recipes We have, <a href="#" onClick={() => setOpenedPage("meal")}>Click here to add your own meal</a> </p>
+            {!recipesOrder && <button className="order-button" onClick={() => setOpenedPage("cart")}>Go to Check and Buy Your Recipes</button>}
             <main>
                 {children}
             </main>

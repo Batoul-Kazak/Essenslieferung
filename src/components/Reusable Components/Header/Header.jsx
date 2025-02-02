@@ -1,16 +1,7 @@
-
-
 export default function Header({
     children,
-    openAccountPage,
-    openCartPage,
-    openAddMealPage,
-    openHomePage,
-    openMenuPage,
-    handleGoToHomePage,
-    handleGoToAddMealPage,
-    handleGoToMenuPage,
-    handleGoToUserAccountPage
+    openedPage,
+    setOpenedPage
 }) {
 
     return (
@@ -18,25 +9,25 @@ export default function Header({
             <h1>🍅 Tomato</h1>
             <ul className="links">
                 <li>
-                    <a href="#" className={openHomePage ? "active-link" : ""} onClick={handleGoToHomePage}>home</a>
-                    {!openCartPage && <div className="line"></div>}
+                    <a href="#" className={openedPage === "home" ? "active-link" : ""} onClick={() => setOpenedPage("home")}>home</a>
+                    {openedPage !== "home" && <div className="line"></div>}
                 </li>
                 <li>
-                    <a href="#" className={openMenuPage ? "active-link" : ""} onClick={handleGoToMenuPage}>menu</a>
-                    {!openMenuPage && <div className="line"></div>}
+                    <a href="#" className={openedPage === "menu" ? "active-link" : ""} onClick={() => setOpenedPage("menu")}>menu</a>
+                    {openedPage !== "menu" && <div className="line"></div>}
                 </li>
 
                 <li>
-                    <a href="#" className={openAddMealPage ? "active-link" : ""} onClick={handleGoToAddMealPage}>add meal</a>
-                    <div className="line"></div>
+                    <a href="#" className={openedPage === "meal" ? "active-link" : ""} onClick={() => setOpenedPage("meal")}>add meal</a>
+                    {openedPage !== "meal" && <div className="line"></div>}
                 </li>
                 <li>
-                    <a href="#" className={openAccountPage ? "active-link" : ""} onClick={handleGoToUserAccountPage}>my account</a>
-                    {!openAccountPage && <div className="line"></div>}
+                    <a href="#" className={openedPage === "account" ? "active-link" : ""} onClick={() => setOpenedPage("account")}>my account</a>
+                    {openedPage !== "account" && <div className="line"></div>}
                 </li>
                 <li>
-                    <a href="#">contact us</a>
-                    <div className="line"></div>
+                    <a href="#" className={openedPage === "contact" ? "active-link" : ""} onClick={() => setOpenedPage("contact")}>contact us</a>
+                    {openedPage !== "contact" && <div className="line"></div>}
                 </li>
             </ul>
             <ul className="icons">
