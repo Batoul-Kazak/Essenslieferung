@@ -11,6 +11,7 @@ import { useFetchingMeals } from "../../functions/useFetchingMeals"
 export default function App() {
     const [query, setQuery] = useState("");
     const [recipesOrder, setRecipesOrder] = useState([]);
+    const { recipe, isLoading, error } = useFetchingMeals(true, query);
 
     const [users, setUsers] = useState([]);
 
@@ -18,8 +19,6 @@ export default function App() {
     const [openedPage, setOpenedPage] = useState("home");
 
     const [specificMeals, setSpecificMeals] = useState([]);
-
-    const { recipe, isLoading, error } = useFetchingMeals(true, query);
 
     useEffect(function () {
         switch (openedPage) {
@@ -75,6 +74,7 @@ export default function App() {
                 <HomePage openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
                     error={error} recipe={recipe} recipesOrder={recipesOrder}
                     setRecipesOrder={setRecipesOrder} setOpenedPage={setOpenedPage}
+                    users={users} setUsers={setUsers}
                 >
                     <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
                         <li><div className="basket-icon" role="button" onClick={() =>

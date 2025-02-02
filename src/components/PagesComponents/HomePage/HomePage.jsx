@@ -20,7 +20,9 @@ export default function HomePage({
     recipesOrder,
     setRecipesOrder,
     setOpenedPopup,
-    setOpenedPage
+    setOpenedPage,
+    users,
+    setUsers
 }) {
     return (
         <section className="home-page">
