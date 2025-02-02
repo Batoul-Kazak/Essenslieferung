@@ -1,102 +1,115 @@
 import { useState } from "react";
-
+import { useEffect } from "react";
 export default function SignUp({
-    users,
-    setUsers,
-    setOpenedPopup
+    setOpenedPopup,
+    dispatch
 }) {
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [registrationData, setRegistrationData] = useState({
+        name: '',
+        password: '',
+        email: '',
+        confirmPassword: ''
+    });
+    const [registrationError, setRegistrationError] = useState({});
+    const [revealText, setRevealText] = useState(false);
 
-    const [name_msg, setName_msg] = useState([]);
-    const [email_msg, setEmail_msg] = useState([]);
-    const [password_msg, setPassword_msg] = useState([]);
+    //in the future i may add 3 error-msg arrays for each error name, email, password and
+    //display each of them under its input
+    const handleRegistrationChange = (e) => {
+        setRegistrationData({ ...registrationData, [e.target.name]: e.target.value });
+        checkRegistrationCredentials();
+    };
 
-    function hasUpperCase(str) {
-        return str !== str.toLowerCase();
-    }
+    function checkRegistrationCredentials() {
+        setRegistrationError({});
+        if (!registrationData.name || !registrationData.email) return;
 
-    function hasNumber(myString) {
-        return /\d/.test(myString);
-    }
-
-    function handleResult(e) {
-        e.preventDefault();
-
-        if (name.length < 2)
-            setName_msg(msg => [...msg, "name can't be less than 2 characters"]);
-
-        if (hasNumber(name))
-            setName_msg(msg => [...msg, "name can't contain a number"])
-
-        if (password.length < 5)
-            setPassword_msg(msg => [...msg, "you assigned weak password"]);
-
-        if (!hasUpperCase(password))
-            setPassword_msg(msg => [...msg, "password must contain at least one uppercase letter"])
-
-        // if (password.length >= 5 && hasUpperCase(password))
-        // setPassword_msg([]);
-
-        if (!(email.includes("@")))
-            setEmail_msg(msg => [...msg, "email must contain a @"]);
-
-        if (email.startsWith("@"))
-            setEmail_msg(msg => [...msg, "email can't start with @"]);
-
-        if (!(email.endsWith("@gmail.com")))
-            setEmail_msg(msg => [...msg, "not acceptable email"]);
-
-        // if (email.endsWith("@gmail.com") && !(email.startsWith('@')))
-        // setEmail_msg([]);
-
-        alert("password: " + typeof password_msg + "  email: " + typeof email_msg);
-        if (!password_msg.length && !email_msg.length) {
-            const newUser = {
-                id: users.length + 1, name: name, email: email,
-                password: password, isActive: true, currentRequestedRecipesIds: [],
-                recipesRating: [{ recipeId: -1, recipeRated: 0 }], previousRequestedRecipesIds: []
-            };
-
-            let isEmailExist = users.find(user => user.email === email);
-
-            if (isEmailExist) {
-                setEmail_msg("this email already exists");
-                return;
+        if (!registrationData.name)
+            if (registrationData.name.length < 3) {
+                registrationError.name = "Name must be at least 3 characters";
             }
 
-            localStorage.setItem("users", JSON.stringify([...users, newUser]));
-            setUsers(users => [...users, newUser]);
-            setOpenedPopup(false);
+        if (registrationData.email.length !== 0) {
+            // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // if (!emailRegex.test(registrationData.email)) {
+            //     registrationError.email = "Invalid email format";
+            // }
+            if (!(registrationData.email.includes("@")))
+                setRegistrationError("email must contain a @");
 
-            alert("Added Successfully");
+            if (registrationData.email.startsWith("@"))
+                setRegistrationError("email can't start with @");
 
-            setEmail_msg([]);
-            setPassword_msg([]);
+            if (!(registrationData.email.endsWith("@gmail.com")))
+                setRegistrationError("not acceptable email");
         }
+
+        if (registrationData.password.length < 6) {
+            registrationError.password = "Password must be at least 6 characters";
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+        if (!passwordRegex.test(registrationData.password)) {
+            registrationError.passwordComplexity = "Password must contain at least one uppercase letter, one lowercase letter, and one number";
+        }
+
+        if (registrationData.confirmPassword !== registrationData.password) {
+            registrationError.passwordConfirm = "Passwords do not match";
+        }
+
+        setRegistrationError(registrationError);
+
+        return Object.keys(registrationError).length === 0
     }
 
+    const handleRegistration = (e) => {
+        e.preventDefault();
+
+        const isCorrect = checkRegistrationCredentials();
+
+        if (registrationData.email.length === 0)
+            setRegistrationError("you can't leave email");
+
+        if (registrationData.password.length === 0)
+            setRegistrationError("password is required")
+
+        if (registrationData.name.length === 0)
+            setRegistrationData("name is required")
+
+        if (isCorrect) {
+            dispatch({ type: 'register', payload: registrationData });
+            console.log(registrationData)
+            setRegistrationData({ name: '', password: '', email: '', registrationData: '' });
+            setRegistrationError({});
+        } else console.log(registrationError);
+    }
+    // useEffect(() => {
+    //// Update localStorage if the users array changes (useful if you modify the array in other ways)
+    //     localStorage.setItem('users', JSON.stringify(users));
+    // }, [users]);
+
     return (
-        <form action="" method="post" className="register-info" onSubmit={(e) => handleResult(e)} >
+        <form action="" method="post" className="register-info" onSubmit={handleRegistration}>
             <header>
                 <h2>SignUp</h2>
                 <button className="close-button" onClick={() => setOpenedPopup(false)}>✖</button>
             </header>
-            <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
-            {name_msg && <div className="error-list">
-                {name_msg.map(msg => <p className="error-msg">☹ {msg}</p>)}
-            </div>}
-            <input type="email" placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            {email_msg && <div className="error-list">
-                {email_msg.map(msg => <p className="error-msg">☹ {msg}</p>)}
-            </div>}
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            {password_msg && <div className="error-list">
-                {password_msg.map(msg => <p className="error-msg">☹ {msg}</p>)}
-            </div>}
-            <button className="submit-button">Create Account</button>
+            <input type="text" placeholder="Your name" value={registrationData.name}
+                name="name" onChange={(e) => handleRegistrationChange(e)} />
+            {registrationError.name && <div className="error-list">{registrationError.name}</div>}
+            <input type="email" placeholder="Your email" value={registrationData.email}
+                name="email" onChange={(e) => handleRegistrationChange(e)} />
+            {registrationError.email && <div className="error-list">{registrationError.email}</div>}
+            <div className="space-between">
+                <input type={revealText ? "text" : "password"} placeholder="Password" value={registrationData.password}
+                    name="password" onChange={(e) => handleRegistrationChange(e)} />
+                <div className="reveal-text" type="button" onMouseEnter={() => setRevealText(true)} onMouseLeave={() => setRevealText(false)}></div>
+            </div>
+            <input type={revealText ? "text" : "password"} placeholder="Confirm Password" value={registrationData.confirmPassword}
+                name="confirmPassword" onChange={(e) => handleRegistrationChange(e)} />
+            {registrationError.password && <div className="error-list">{registrationError.password}</div>}
+            <button type="submit" className="submit-button">Create Account</button>
             <div>
                 <input type="checkbox" id="check" required />
                 <label htmlFor="check">By continuing, I agree to the terms of use privacy policy</label>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import Header from "./../Reusable Components/Header/Header"
 import CartPage from "./CartPage/CartPage"
 import DishInfoCart from "./CartPage/components/DishInfoCart"
@@ -9,28 +9,61 @@ import HomePage from "./HomePage/HomePage"
 import { useFetchingMeals } from "../../functions/useFetchingMeals"
 
 const initialState = {
-    users: [],
+    users: JSON.parse(localStorage.getItem("users")) || [],
+    currentUser: null,
     recipesOrder: [],
     specificMeals: []
-}
+};
+
+// const newUser = {
+//     id: users.length + 1, name: name, email: email,
+//     password: password, isActive: true, currentRequestedRecipesIds: [],
+//     recipesRating: [{ recipeId: -1, recipeRated: 0 }], previousRequestedRecipesIds: []
+// };
 
 function reducer(state, action) {
     switch (action.type) {
-        // case ""
+        case "register":
+            const newUser = {
+                id: Date.now(), // Generate a unique ID (you might use a UUID library in a real app)
+                name: action.payload.name,
+                password: action.payload.password,
+                email: action.payload.email,
+            };
+
+            const isExist = state.users.find((user) => user.email === action.payload.email);
+
+            if (!isExist) {
+                localStorage.setItem('users', JSON.stringify([...state.users, newUser])); // Update localStorage
+                return { ...state, users: [...state.users, newUser] };
+            } else {
+                return { ...state, registrationError: "this email already in use, try another one" };
+            }
+
+        case 'login':
+            const { email, password } = action.payload;
+            const user = state.users.find(
+                (user) => user.email === email && user.password === password
+            );
+
+            if (user) {
+                return { ...state, currentUser: user };
+            } else {
+                return { ...state, loginError: "Invalid email or password" }; // Or handle error as you want
+            }
+        // case 'LOGOUT':
+        //     return { ...state, currentUser: null };
+        // default:
+        //     return state;
     }
 }
 
 export default function App() {
     const [query, setQuery] = useState("");
-    const [recipesOrder, setRecipesOrder] = useState([]);
     const { recipe, isLoading, error } = useFetchingMeals(true, query);
-
-    const [users, setUsers] = useState([]);
-
     const [openedPopup, setOpenedPopup] = useState("none");
     const [openedPage, setOpenedPage] = useState("home");
-
-    const [specificMeals, setSpecificMeals] = useState([]);
+    const [{ users, currentUser, recipesOrder }, dispatch] = useReducer(reducer, initialState);
 
     useEffect(function () {
         switch (openedPage) {
@@ -49,7 +82,7 @@ export default function App() {
 
     return (
         <div className="app">
-            {openedPage === "menu" && <MenuPage recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
+            {openedPage === "menu" && <MenuPage recipesOrder={recipesOrder}
                 setOpenedPage={setOpenedPage}
             >
                 <Header setOpenedPage={setOpenedPage} openedPage={openedPage}>
@@ -62,7 +95,6 @@ export default function App() {
                     <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
                 </Header>
                 <DishInfoCart recipesOrder={recipesOrder}
-                    setRecipesOrder={setRecipesOrder}
                 />
             </CartPage>}
 
@@ -85,8 +117,8 @@ export default function App() {
             {openedPage === "home" &&
                 <HomePage openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
                     error={error} recipe={recipe} recipesOrder={recipesOrder}
-                    setRecipesOrder={setRecipesOrder} setOpenedPage={setOpenedPage}
-                    users={users} setUsers={setUsers}
+                    setOpenedPage={setOpenedPage}
+                    users={users} dispatch={dispatch} currentUser={currentUser}
                 >
                     <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
                         <li><div className="basket-icon" role="button" onClick={() =>

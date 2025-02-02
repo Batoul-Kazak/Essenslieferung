@@ -8,6 +8,7 @@ import Login from "./../../Reusable Components/Header/components/Login"
 import Curtain from "./../../Reusable Components/Curtain"
 import Loader from "./../../Reusable Components/Loader"
 import ErrorMessage from "./../../Reusable Components/ErrorMessage"
+import { use } from "react"
 
 export default function HomePage({
     children,
@@ -22,19 +23,20 @@ export default function HomePage({
     setOpenedPopup,
     setOpenedPage,
     users,
-    setUsers
+    dispatch,
+    currentUser
 }) {
     return (
         <section className="home-page">
             {children}
             {openedPopup === "signup" ?
                 <>
-                    <SignUp users={users} setUsers={setUsers} setOpenedPopup={setOpenedPopup} />
+                    <SignUp users={users} setOpenedPopup={setOpenedPopup} dispatch={dispatch} />
                     <Curtain />
                 </>
                 : openedPopup === "login" ?
                     <>
-                        <Login setOpenedPopup={setOpenedPopup} />
+                        <Login setOpenedPopup={setOpenedPopup} users={users} dispatch={dispatch} currentUser={currentUser} />
                         <Curtain />
                     </>
                     : ""}
