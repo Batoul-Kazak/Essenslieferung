@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react"
+import { createContext, useEffect, useReducer, useState } from "react"
 import Header from "./../Reusable Components/Header/Header"
 import CartPage from "./CartPage/CartPage"
 import DishInfoCart from "./CartPage/components/DishInfoCart"
@@ -80,54 +80,58 @@ export default function App() {
 
     }, [openedPage]);
 
+    const OpenedPageContext = createContext();
+
     return (
-        <div className="app">
-            {openedPage === "menu" && <MenuPage recipesOrder={recipesOrder}
-                setOpenedPage={setOpenedPage}
-            >
-                <Header setOpenedPage={setOpenedPage} openedPage={openedPage}>
-                    <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
-                </Header>
-            </MenuPage>}
-
-            {openedPage === "cart" && <CartPage>
-                <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
-                    <li><div className="basket-icon" role="button" onClick={() => setOpenCartPage(openCartPage => !openCartPage)}></div></li>
-                </Header>
-                <DishInfoCart recipesOrder={recipesOrder}
-                />
-            </CartPage>}
-
-            {openedPage === "account" && <UserAccountInfo>
-                <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
-                    <li><div className="basket-icon" role="button" onClick={() =>
-                        setOpenedPage(openedPage => openedPage === "account" ? "cart" : "account")}></div></li>
-                </Header>
-            </UserAccountInfo>
-            }
-
-            {openedPage === "meal" && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
-                <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
-                    <li><div className="basket-icon" role="button" onClick={() =>
-                        setOpenedPage(openedPage => openedPage === "meal" ? "cart" : "meal")
-                    }></div></li>
-                </Header>
-            </AddMealPage>}
-
-            {openedPage === "home" &&
-                <HomePage openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
-                    error={error} recipe={recipe} recipesOrder={recipesOrder}
+        <OpenedPageContext.Provider>
+            <div className="app">
+                {openedPage === "menu" && <MenuPage recipesOrder={recipesOrder}
                     setOpenedPage={setOpenedPage}
-                    users={users} dispatch={dispatch} currentUser={currentUser}
                 >
-                    <Header openedPage={openedPage} setOpenedPage={setOpenedPage}>
-                        <li><div className="basket-icon" role="button" onClick={() =>
-                            setOpenedPage(openedPage => openedPage === "home" ? "cart" : "home")
-                        }></div></li>
-                        <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
+                    <Header>
+                        <li><div className="basket-icon" role="button" onClick={() => setOpenedPage(openedPage => openedPage == "cart" ? "home" : "cart")}></div></li>
                     </Header>
-                </HomePage>
-            }
-        </div>
+                </MenuPage>}
+
+                {openedPage === "cart" && <CartPage>
+                    <Header>
+                        <li><div className="basket-icon" role="button" onClick={() => setOpenedPage(openedPage => openedPage == "cart" ? "home" : "cart")}></div></li>
+                    </Header>
+                    <DishInfoCart recipesOrder={recipesOrder}
+                    />
+                </CartPage>}
+
+                {openedPage === "account" && <UserAccountInfo>
+                    <Header>
+                        <li><div className="basket-icon" role="button" onClick={() =>
+                            setOpenedPage(openedPage => openedPage === "account" ? "cart" : "account")}></div></li>
+                    </Header>
+                </UserAccountInfo>
+                }
+
+                {openedPage === "meal" && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
+                    <Header>
+                        <li><div className="basket-icon" role="button" onClick={() =>
+                            setOpenedPage(openedPage => openedPage === "meal" ? "cart" : "meal")
+                        }></div></li>
+                    </Header>
+                </AddMealPage>}
+
+                {openedPage === "home" &&
+                    <HomePage openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
+                        error={error} recipe={recipe} recipesOrder={recipesOrder}
+                        setOpenedPage={setOpenedPage}
+                        users={users} dispatch={dispatch} currentUser={currentUser}
+                    >
+                        <Header>
+                            <li><div className="basket-icon" role="button" onClick={() =>
+                                setOpenedPage(openedPage => openedPage === "home" ? "cart" : "home")
+                            }></div></li>
+                            <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
+                        </Header>
+                    </HomePage>
+                }
+            </div>
+        </OpenedPageContext.Provider>
     )
 }

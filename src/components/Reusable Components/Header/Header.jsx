@@ -1,8 +1,10 @@
+import { useContext } from "react";
+
 export default function Header({
-    children,
-    openedPage,
-    setOpenedPage
+    children
 }) {
+
+    const { openedPage, setOpenedPage } = useContext(OpenedPageContext);
 
     return (
         <header>

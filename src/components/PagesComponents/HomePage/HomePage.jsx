@@ -8,7 +8,6 @@ import Login from "./../../Reusable Components/Header/components/Login"
 import Curtain from "./../../Reusable Components/Curtain"
 import Loader from "./../../Reusable Components/Loader"
 import ErrorMessage from "./../../Reusable Components/ErrorMessage"
-import { use } from "react"
 
 export default function HomePage({
     children,
