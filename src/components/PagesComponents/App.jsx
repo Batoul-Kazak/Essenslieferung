@@ -58,6 +58,8 @@ function reducer(state, action) {
     }
 }
 
+export const OpenedPageContext = createContext();
+
 export default function App() {
     const [query, setQuery] = useState("");
     const { recipe, isLoading, error } = useFetchingMeals(true, query);
@@ -80,57 +82,29 @@ export default function App() {
 
     }, [openedPage]);
 
-    const OpenedPageContext = createContext();
-
     return (
-        <OpenedPageContext.Provider>
+        <OpenedPageContext.Provider
+            value={{
+                openedPage,
+                setOpenedPage,
+                recipe,
+                isLoading,
+                error,
+                openedPopup,
+                setOpenedPopup,
+                users,
+                currentUser,
+                recipesOrder,
+                dispatch,
+                setQuery
+            }}
+        >
             <div className="app">
-                {openedPage === "menu" && <MenuPage recipesOrder={recipesOrder}
-                    setOpenedPage={setOpenedPage}
-                >
-                    <Header>
-                        <li><div className="basket-icon" role="button" onClick={() => setOpenedPage(openedPage => openedPage == "cart" ? "home" : "cart")}></div></li>
-                    </Header>
-                </MenuPage>}
-
-                {openedPage === "cart" && <CartPage>
-                    <Header>
-                        <li><div className="basket-icon" role="button" onClick={() => setOpenedPage(openedPage => openedPage == "cart" ? "home" : "cart")}></div></li>
-                    </Header>
-                    <DishInfoCart recipesOrder={recipesOrder}
-                    />
-                </CartPage>}
-
-                {openedPage === "account" && <UserAccountInfo>
-                    <Header>
-                        <li><div className="basket-icon" role="button" onClick={() =>
-                            setOpenedPage(openedPage => openedPage === "account" ? "cart" : "account")}></div></li>
-                    </Header>
-                </UserAccountInfo>
-                }
-
-                {openedPage === "meal" && <AddMealPage specificMeals={specificMeals} setSpecificMeals={setSpecificMeals}>
-                    <Header>
-                        <li><div className="basket-icon" role="button" onClick={() =>
-                            setOpenedPage(openedPage => openedPage === "meal" ? "cart" : "meal")
-                        }></div></li>
-                    </Header>
-                </AddMealPage>}
-
-                {openedPage === "home" &&
-                    <HomePage openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} query={query} setQuery={setQuery} isLoading={isLoading}
-                        error={error} recipe={recipe} recipesOrder={recipesOrder}
-                        setOpenedPage={setOpenedPage}
-                        users={users} dispatch={dispatch} currentUser={currentUser}
-                    >
-                        <Header>
-                            <li><div className="basket-icon" role="button" onClick={() =>
-                                setOpenedPage(openedPage => openedPage === "home" ? "cart" : "home")
-                            }></div></li>
-                            <li><button onClick={() => setOpenedPopup("signup")}>Sign in</button></li>
-                        </Header>
-                    </HomePage>
-                }
+                {openedPage === "menu" && <MenuPage />}
+                {openedPage === "cart" && <CartPage />}
+                {openedPage === "account" && <UserAccountInfo />}
+                {openedPage === "meal" && <AddMealPage />}
+                {openedPage === "home" && <HomePage />}
             </div>
         </OpenedPageContext.Provider>
     )

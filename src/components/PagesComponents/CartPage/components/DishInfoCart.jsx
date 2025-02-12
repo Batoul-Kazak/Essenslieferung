@@ -1,6 +1,12 @@
-import { useState } from "react"
+import { React, useContext, useState } from "react"
+import { OpenedPageContext } from "../../App";
 
-export default function DishInfoCart({ recipesOrder, setRecipesOrder }) {
+export default function DishInfoCart() {
+
+    const Context = useContext(OpenedPageContext);
+    const recipesOrder = Context?.recipesOrder;
+    const setRecipesOrder = Context?.setRecipesOrder;
+
     const [isDelivered, setIsDelivered] = useState(false);
 
     const totalPrice_forRecipe = recipesOrder.map(recipe => Number(recipe.totalPrice));

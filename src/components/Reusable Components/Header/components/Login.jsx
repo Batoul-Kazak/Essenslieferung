@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { OpenedPageContext } from "../../../PagesComponents/App";
 
-export default function Login({
-    setOpenedPopup,
-    dispatch,
-    currentUser
-}) {
+export default function Login() {
     const [revealText, setRevealText] = useState(false);
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
     });
+
+    const Context = useContext(OpenedPageContext);
+    const setOpenedPopup = Context?.setOpenedPopup;
+    const dispatch = Context?.dispatch;
+    const currentUser = Context?.currentUser;
 
     const [loginError, setLoginError] = useState(null);
 

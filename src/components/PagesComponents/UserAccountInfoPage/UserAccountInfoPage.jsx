@@ -1,8 +1,9 @@
-export default function UserAccountInfo({ children }) {
+import Header from "../../Reusable Components/Header/Header";
+
+export default function UserAccountInfo() {
     return (
         <section className="user-account-info-page">
-            {children}
-
+            <Header />
         </section>
     );
 }

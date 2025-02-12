@@ -1,37 +1,32 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Loader from "../../Reusable Components/Loader";
 import ErrorMessage from "../../Reusable Components/ErrorMessage";
 import Dish from "./../../Reusable Components/Dish";
+import Header from "../../Reusable Components/Header/Header";
 import { useFetchingMeals } from "../../../functions/useFetchingMeals";
+import { OpenedPageContext } from "../App";
 
-export default function MenuPage({
-    children,
-    recipesOrder,
-    setRecipesOrder,
-    setOpenedPage
-}) {
+export default function MenuPage() {
     const { recipe, isLoading, error } = useFetchingMeals(false);
 
     return (
         <section className="menu-page">
-            {children}
-            {!error && !isLoading && <Menu setOpenedPage={setOpenedPage}>
-                {recipe.map(dish => <Dish key={dish.id}
-                    recipe={dish}
-                    recipesOrder={recipesOrder} setRecipesOrder={setRecipesOrder}
-                />)}
+            <Header />
+            {!error && !isLoading && <Menu>
+                {recipe.map(dish => <Dish key={dish.id} recipe={dish} />)}
             </Menu>}
             {isLoading && !error && <Loader />}
             {error && <ErrorMessage message={error} />}
         </section>
-    );
+    ); error
 }
 
 function Menu({
-    children,
-    recipesOrder,
-    setOpenedPage
+    children
 }) {
+    const Context = useContext(OpenedPageContext);
+    const recipesOrder = Context?.recipesOrder;
+    const setOpenedPage = Context?.setOpenedPage;
 
     return (
         <section className="main-menu">

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useEffect } from "react";
-export default function SignUp({
-    setOpenedPopup,
-    dispatch
-}) {
+import { useContext, useState } from "react";
+import { OpenedPageContext } from "../../../PagesComponents/App";
+export default function SignUp() {
+    const Context = useContext(OpenedPageContext);
+    const dispatch = Context?.dispatch;
+    const setOpenedPopup = Context?.setOpenedPopup;
 
     const [registrationData, setRegistrationData] = useState({
         name: '',

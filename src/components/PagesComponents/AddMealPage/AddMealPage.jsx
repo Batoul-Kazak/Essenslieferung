@@ -1,13 +1,19 @@
 import Warning from "../../Reusable Components/Warning";
 import Curtain from "../../Reusable Components/Curtain";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import Header from "../../Reusable Components/Header/Header";
+import { OpenedPageContext } from "../App";
 
-export default function AddMealPage({ children, specificMeals, setSpecificMeals }) {
+export default function AddMealPage() {
     const [sortedBy, setSortedBy] = useState("timeAdded");
     const [typeOfSorting, setTypeOfSorting] = useState("ascending");
     const [isShowWarning, setIsShowWarning] = useState(false);
     const [isYes, setIsYes] = useState(false);
     const [displayTotalMealsPrice, setDisplayTotalMealsPrice] = useState(false);
+    const Context = useContext(OpenedPageContext);
+    const setSpecificMeals = Context?.setSpecificMeals;
+    const specificMeals = [];
+
     const warningMsg = "Clearing all meals will delete them permanently and you won't receive any meal, Are you sure you want to clear all meals you created?";
     let sortedSpecificMeals = [];
     let specificMealsPriceArr = specificMeals.map(meal => Number(meal.price));
@@ -55,7 +61,7 @@ export default function AddMealPage({ children, specificMeals, setSpecificMeals 
 
     return (
         <section className="add-meal-page">
-            {children}
+            <Header />
 
             <section className="flex">
                 <nav>

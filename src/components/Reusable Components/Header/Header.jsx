@@ -1,10 +1,20 @@
 import { useContext } from "react";
+import { OpenedPageContext } from "./../../PagesComponents/App"
 
-export default function Header({
-    children
-}) {
+export default function Header() {
+    const Context = useContext(OpenedPageContext);
+    const openedPage = Context?.openedPage;
+    const setOpenedPage = Context?.setOpenedPage;
+    const setOpenedPopup = Context?.setOpenedPopup;
 
-    const { openedPage, setOpenedPage } = useContext(OpenedPageContext);
+    console.log("openedPage", openedPage, " setOpenedPage", setOpenedPage);
+
+    function handleToggleBasket() {
+        if (openedPage === "cart")
+            setOpenedPage("home");
+        else
+            setOpenedPage("cart");
+    }
 
     return (
         <header>
@@ -33,7 +43,8 @@ export default function Header({
                 </li>
             </ul>
             <ul className="icons">
-                {children}
+                <li><div className="basket-icon" role="button" onClick={handleToggleBasket}></div></li>
+                <li><button onClick={() => setOpenedPopup("signup")}>Sign Up</button></li>
             </ul>
         </header >
     );

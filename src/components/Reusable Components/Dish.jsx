@@ -2,9 +2,10 @@ import AddingControl from "./AddingControl";
 import ControlledStarRating from "./ControlledStarRating"
 import UncontrolledStarRating from "./UncontrolledStarRating"
 import TextExpander from "./TextExpander"
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { OpenedPageContext } from "../PagesComponents/App";
 
-export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
+export default function Dish({ recipe }) {
     const [isClicked, setIsClicked] = useState(false);
     const [showDetails, setShowDetails] = useState(true);
     const [dishAmount, setDishAmount] = useState(1);
@@ -13,6 +14,10 @@ export default function Dish({ recipe, recipesOrder, setRecipesOrder }) {
     const [isShowText, setIsShowText] = useState(false);
     const [canOrder, setCanOrder] = useState(false);
     const ratedTimes = useRef(0);
+
+    const Context = useContext(OpenedPageContext);
+    const recipesOrder = Context?.recipesOrder;
+    const setRecipesOrder = Context?.setRecipesOrder;
 
     const ratingMessages = [
         { msg: "Terrible", color: "red" },
